@@ -6,3 +6,5 @@ If WebView2 will demonstrate its ability, then, in theory we can join all three 
 The experiment consists of a small test case that open a google search form, then searches a keyword and validates that the keyword appears in the first page of the results. 
 
 A short step-by-step story how test was written can be found [here](https://github.com/nikolaygekht/webview2_as_web_ui_test/wiki/Step-by-step-integration-of-the-WebView2-into-tests)
+
+Note: In order to run the application, please don't forget to install `WebView2` ([check for instructions](https://docs.microsoft.com/en-us/microsoft-edge/webview2/get-started/winforms))
