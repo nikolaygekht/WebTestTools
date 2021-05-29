@@ -17,15 +17,15 @@ namespace webviewtest
         /// <param name="xpath"></param>
         /// <returns></returns>
         public static string EvaluateXPathString(this WebBrowserDriver driver, string xpath) => driver.ExecuteScript<string>($"document.evaluate(\"{xpath}\", document, null, XPathResult.STRING_TYPE).stringValue");
-        
+
         /// <summary>
-        /// Evaludates an XPath value that returns a number
+        /// Evaluates an XPath value that returns a number
         /// </summary>
         /// <param name="driver"></param>
         /// <param name="xpath"></param>
         /// <returns></returns>
         public static double EvaluateXPathNumber(this WebBrowserDriver driver, string xpath) => driver.ExecuteScript<double>($"document.evaluate(\"{xpath}\", document, null, XPathResult.NUMBER_TYPE).numberValue");
-        
+
         /// <summary>
         /// Evaluates an XPath value that returns a boolean value
         /// </summary>
@@ -47,15 +47,15 @@ namespace webviewtest
         /// <param name="driver"></param>
         /// <returns></returns>
         public static string Location(this WebBrowserDriver driver) => driver.ExecuteScript<string>("document.location.href");
-        
+
         /// <summary>
-        /// Checks whether the element specified exists. 
+        /// Checks whether the element specified exists.
         /// </summary>
         /// <param name="driver"></param>
         /// <param name="locator"></param>
         /// <returns></returns>
         public static bool Exists(this WebBrowserDriver driver, Element locator) => driver.ExecuteScript<bool>(locator.CheckIfExists());
-        
+
         /// <summary>
         /// Returns the value of the element as a string
         /// </summary>
@@ -63,7 +63,7 @@ namespace webviewtest
         /// <param name="locator"></param>
         /// <returns></returns>
         public static string ValueOf(this WebBrowserDriver driver, Element locator) => driver.ExecuteScript<string>(locator.CreateAccessor() + ".value");
-        
+
         /// <summary>
         /// Returns the value of the element's property as a type specified
         /// </summary>
@@ -73,7 +73,7 @@ namespace webviewtest
         /// <param name="property"></param>
         /// <returns></returns>
         public static T ValueOf<T>(this WebBrowserDriver driver, Element locator, string property) => driver.ExecuteScript<T>(locator.CreateAccessor() + "." + property);
-        
+
         /// <summary>
         /// Returns the element in HTML form
         /// </summary>

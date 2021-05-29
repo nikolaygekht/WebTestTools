@@ -7,15 +7,15 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 using Newtonsoft.Json;
 
 namespace webviewtest
 {
     /// <summary>
-    /// The class to create and use in-process web browser. 
-    /// 
-    /// See also <see cref="WebBrowserDriverExtensions"/> for extension methods.
+    /// <para>The class to create and use in-process web browser. </para>
+    /// <para>See also <see cref="WebBrowserDriverExtensions"/> for extension methods.</para>
     /// </summary>
     public sealed class WebBrowserDriver : IDisposable
     {
@@ -135,7 +135,7 @@ namespace webviewtest
             string s = ExecuteScriptRaw(script);
 
             if (s == null || s == "null")
-                return default(T);
+                return default;
 
             return JsonConvert.DeserializeObject<T>(s);
         }
@@ -152,10 +152,12 @@ namespace webviewtest
         /// <param name="timeout"></param>
         public void Start(int timeout = 1000)
         {
-            if (mThread == null || !mThread.IsAlive)
+            if (mThread?.IsAlive != true)
             {
-                mThread = new Thread(Runner);
-                mThread.IsBackground = true;
+                mThread = new Thread(Runner)
+                {
+                    IsBackground = true
+                };
                 mThread.SetApartmentState(ApartmentState.STA);
                 mThread.Start();
                 DateTime end = DateTime.Now.AddMilliseconds(timeout);
@@ -169,9 +171,8 @@ namespace webviewtest
         }
 
         /// <summary>
-        /// Disposes the object. 
-        /// 
-        /// If form is still open, it will be closed. 
+        /// <para>Disposes the object. </para>
+        /// <para>If form is still open, it will be closed. </para>
         /// </summary>
         public void Dispose()
         {
@@ -183,7 +184,64 @@ namespace webviewtest
         }
 
         /// <summary>
-        /// Form thread. 
+        /// Gets or sets zoom factor
+        /// </summary>
+        public double ZoomFactor
+        {
+            get => Perform<double>(() => WebView.ZoomFactor);
+            set => Perform(() => WebView.ZoomFactor = value);
+        }
+
+        /// <summary>
+        /// Returns the flag indicating that the browser can go back
+        /// </summary>
+        public bool CanGoBack => Perform<bool>(() => WebView.CanGoBack);
+
+        /// <summary>
+        /// Returns the flag indicating that the browser can go forward
+        /// </summary>
+        public bool CanGoForward => Perform<bool>(() => WebView.CanGoForward);
+
+        /// <summary>
+        /// Makes the browser to go to the previous page in the history
+        /// </summary>
+        public void GoBack() => Perform(() => WebView.GoBack());
+
+        /// <summary>
+        /// Makes the browser to go to the next page in the history
+        /// </summary>
+        public void GoForward() => Perform(() => WebView.GoForward());
+
+        /// <summary>
+        /// Gets the list of the cookies
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public IReadOnlyList<CoreWebView2Cookie> GetCookies(string uri)
+        {
+            if (WebView?.CoreWebView2 == null)
+                throw new InvalidOperationException("The control is not initialized yet");
+
+            var task = WebView.CoreWebView2.CookieManager.GetCookiesAsync(uri);
+            task.Wait();
+            return task.Result;
+        }
+
+        /// <summary>
+        /// Deletes the specified cookie
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="uri"></param>
+        public void DeleteCookie(string name, string uri)
+        {
+            if (WebView?.CoreWebView2 == null)
+                throw new InvalidOperationException("The control is not initialized yet");
+
+            WebView.CoreWebView2.CookieManager.DeleteCookies(name, uri);
+        }
+
+        /// <summary>
+        /// Form thread.
         /// </summary>
         private void Runner()
         {
