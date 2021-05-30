@@ -10,12 +10,13 @@ using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 
-namespace webviewtest
+#pragma warning disable IDE1006 // Naming Styles
+
+namespace Gehtsoft.Webview2.Uitest
 {
     /// <summary>
-    /// A form with web browser. 
-    /// 
-    /// Don't create the form directly, use <see cref="WebBrowserDriver"/> class instead.
+    /// <para>A form with web browser. </para>
+    /// <para>Don't create the form directly, use <see cref="WebBrowserDriver"/> class instead.</para>
     /// </summary>
     public partial class WebBrowserForm : Form
     {
@@ -51,7 +52,6 @@ namespace webviewtest
         {
             NavigationCompleted = false;
             webViewControl.CoreWebView2.Navigate(url);
-
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Gehtsoft.Webview2.Uitest;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -20,14 +21,13 @@ namespace webviewtest
             f.Start();
             f.Navigate("https://www.google.com");
 
-            f.SetValue(Element.ByName("q"), "gehtsoft");
-            f.Click(Element.ByName("btnK"));
+            f.ByName["q"].Value = "gehtsoft";
+            f.ByName["btnK"].Click();
 
-            f.WaitFor(d => d.Location().StartsWith("https://www.google.com/search"), 1);
+            f.WaitFor(d => d.Location.StartsWith("https://www.google.com/search"), 1);
 
-            f.EvaluateXPathBool("count(/html/body//cite[text()='https://gehtsoftusa.com']) > 0").Should().BeTrue();
+            f.XPath("count(/html/body//cite[text()='https://gehtsoftusa.com']) > 0").AsBoolean.Should().BeTrue();
         }
-
 
         [Fact]
         public void CurrentTest()
@@ -38,25 +38,33 @@ namespace webviewtest
             f.Show(true);
             f.Navigate("https://www.google.com");
 
-            f.SetValue(Element.ByName("q"), "gehtsoft");
-            f.ValueOf<string>(Element.ByName("q"), "value").Should().Be("gehtsoft");
+            f.ByName["q"].Value = "gehtsoft";
+            f.ByName["q"].Value.Should().Be("gehtsoft");
+            f.ByName["q"].GetProperty<string>("value").Should().Be("gehtsoft");
 
-            f.EvaluateXPathString("/html/body//input[@name='btnK']/@name").Should().Be("btnK");
-            f.EvaluateXPathNumber("count(/html/body//input[@name='btnK'])").Should().BeGreaterThan(0);
-            f.EvaluateXPathBool("count(/html/body//input[@name='btnK']) > 0").Should().BeTrue();
+            f.XPath("/html/body//input[@name='btnK']/@name").AsString.Should().Be("btnK");
+            f.XPath("count(/html/body//input[@name='btnK'])").AsNumber.Should().BeGreaterThan(0);
+            f.XPath("count(/html/body//input[@name='btnK']) > 0").AsBoolean.Should().BeTrue();
 
-            f.Exists(Element.ByXPath("/html/body//input[@name='btnK']")).Should().BeTrue();
-            f.Exists(Element.ByXPath("/html/body//input[@name='q']")).Should().BeTrue();
-            f.Exists(Element.ByXPath("/html/body//input[@name='k']")).Should().BeFalse();
-            f.Click(Element.ByName("btnK"));
+            f.ByXPath["/html/body//input[@name='btnK']"].Exists.Should().BeTrue();
 
-            f.WaitFor(d => d.Location().StartsWith("https://www.google.com/search"), 1);
-            
-            var s = f.Body();
+            f.ByXPath["/html/body//input[@name='q']"].Exists.Should().BeTrue();
+            f.XPath("/html/body//input[@name='q']").AsElement.Exists.Should().BeTrue();
+
+            f.ByXPath["/html/body//input[@name='k']"].Exists.Should().BeFalse();
+            f.XPath("/html/body//input[@name='k']").AsElement.Exists.Should().BeFalse();
+
+            f.ByName["btnK"].Click();
+
+            f.WaitFor(d => d.Location.StartsWith("https://www.google.com/search"), 1);
+
+            f.ByXPath["/html/body"].Exists.Should().BeTrue();
+
+            var s = f.ByXPath["/html/body"].OuterHTML;
             s.Should().Contain("https://gehtsoftusa.com/");
 
-            f.EvaluateXPathNumber("count(/html/body//cite[text()='https://gehtsoftusa.com'])").Should().BeGreaterThan(0);
-            f.EvaluateXPathBool("count(/html/body//cite[text()='https://gehtsoftusa.com']) > 0").Should().BeTrue();
+            f.XPath("count(/html/body//cite[text()='https://gehtsoftusa.com'])").AsNumber.Should().BeGreaterThan(0);
+            f.XPath("count(/html/body//cite[text()='https://gehtsoftusa.com']) > 0").AsBoolean.Should().BeTrue();
         }
     }
 }

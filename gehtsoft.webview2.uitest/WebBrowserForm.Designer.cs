@@ -1,5 +1,5 @@
 ﻿
-namespace webviewtest
+namespace Gehtsoft.Webview2.Uitest
 {
     partial class WebBrowserForm
     {
@@ -32,9 +32,9 @@ namespace webviewtest
             this.webViewControl = new Microsoft.Web.WebView2.WinForms.WebView2();
             ((System.ComponentModel.ISupportInitialize)(this.webViewControl)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // webViewControl
-            // 
+            //
             this.webViewControl.CreationProperties = null;
             this.webViewControl.DefaultBackgroundColor = System.Drawing.Color.White;
             this.webViewControl.Location = new System.Drawing.Point(13, 13);
@@ -45,9 +45,9 @@ namespace webviewtest
             this.webViewControl.CoreWebView2InitializationCompleted += new System.EventHandler<Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs>(this.webViewControl_CoreWebView2InitializationCompleted);
             this.webViewControl.NavigationStarting += new System.EventHandler<Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs>(this.webViewControl_NavigationStarting);
             this.webViewControl.NavigationCompleted += new System.EventHandler<Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs>(this.webViewControl_NavigationCompleted);
-            // 
+            //
             // WebBrowserForm
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);

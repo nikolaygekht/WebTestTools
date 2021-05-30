@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
-using Newtonsoft.Json;
 
-namespace webviewtest
+namespace Gehtsoft.Webview2.Uitest
 {
     /// <summary>
     /// <para>The class to create and use in-process web browser. </para>
@@ -19,6 +18,73 @@ namespace webviewtest
     /// </summary>
     public sealed class WebBrowserDriver : IDisposable
     {
+        public class ByNameController
+        {
+            private readonly WebBrowserDriver mDriver;
+
+            internal ByNameController(WebBrowserDriver driver)
+            {
+                mDriver = driver;
+            }
+
+            public Element this[string name, int index = 0] => new Element(mDriver, Element.LocatorTypes.Name, name, index);
+        }
+
+        public class ByClassController
+        {
+            private readonly WebBrowserDriver mDriver;
+
+            internal ByClassController(WebBrowserDriver driver)
+            {
+                mDriver = driver;
+            }
+
+            public Element this[string name, int index = 0] => new Element(mDriver, Element.LocatorTypes.Class, name, index);
+        }
+
+        public class ByIdController
+        {
+            private readonly WebBrowserDriver mDriver;
+
+            internal ByIdController(WebBrowserDriver driver)
+            {
+                mDriver = driver;
+            }
+
+            public Element this[string name] => new Element(mDriver, Element.LocatorTypes.Id, name);
+        }
+        public class ByXPathController
+        {
+            private readonly WebBrowserDriver mDriver;
+
+            internal ByXPathController(WebBrowserDriver driver)
+            {
+                mDriver = driver;
+            }
+
+            public Element this[string xpath] => new Element(mDriver, Element.LocatorTypes.XPath, xpath);
+        }
+
+        public ByNameController ByName { get; }
+        public ByClassController ByClass { get; }
+        public ByIdController ById { get; }
+        public ByXPathController ByXPath { get; }
+
+        /// <summary>
+        /// Return the current location (URL)
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <returns></returns>
+        public string Location => ExecuteScript<string>("document.location.href");
+
+        public WebBrowserDriver()
+        {
+            ByName = new ByNameController(this);
+            ByClass = new ByClassController(this);
+            ById = new ByIdController(this);
+            ByXPath = new ByXPathController(this);
+        }
+
         private WebBrowserForm mForm = null;
         private Thread mThread = null;
 
@@ -125,6 +191,15 @@ namespace webviewtest
         }
 
         /// <summary>
+        /// Executes script that returns no value
+        /// </summary>
+        /// <param name="script"></param>
+        public void ExecuteScript(string script)
+        {
+            ExecuteScriptRaw(script);
+        }
+
+        /// <summary>
         /// Executes the script and parses a returned json object into the type specified
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -137,7 +212,7 @@ namespace webviewtest
             if (s == null || s == "null")
                 return default;
 
-            return JsonConvert.DeserializeObject<T>(s);
+            return JsonSerializer.Deserialize<T>(s);
         }
 
         /// <summary>
@@ -239,6 +314,8 @@ namespace webviewtest
 
             WebView.CoreWebView2.CookieManager.DeleteCookies(name, uri);
         }
+
+        public XPath XPath(string expression) => new XPath(this, expression);
 
         /// <summary>
         /// Form thread.

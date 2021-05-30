@@ -1,0 +1,11 @@
+﻿[*.cs]
+
+# RCS1003: Add braces to if-else (when expression spans over multiple lines).
+dotnet_diagnostic.RCS1003.severity = none
+
+# RCS1146: Use conditional access.
+dotnet_diagnostic.RCS1146.severity = none
+
+
+# IDE0090: Use 'new(...)'
+dotnet_diagnostic.IDE0090.severity = none
