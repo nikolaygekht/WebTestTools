@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gehtsoft.Webview2.FluentAss
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gehtsoft.Webview2.FluentAssertions.Test", "gehtsoft.webview2.fluentassetions.test\Gehtsoft.Webview2.FluentAssertions.Test.csproj", "{A3C4551B-5905-4FE9-A162-310384E3ACB7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gehtsoft.Webtest.Spellchecker", "gehtsoft.webtest.spellchecker\Gehtsoft.Webtest.Spellchecker.csproj", "{E35A5D98-2226-4116-81DC-1DA73C7E04BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gehtsoft.Webtest.Spellchecker.Test", "gehtsoft.webtest.spellchecker.test\Gehtsoft.Webtest.Spellchecker.Test.csproj", "{7ABC0CE9-7CA8-4FD9-AD99-11675CD55502}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,14 +43,22 @@ Global
 		{A3C4551B-5905-4FE9-A162-310384E3ACB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3C4551B-5905-4FE9-A162-310384E3ACB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3C4551B-5905-4FE9-A162-310384E3ACB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E35A5D98-2226-4116-81DC-1DA73C7E04BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E35A5D98-2226-4116-81DC-1DA73C7E04BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E35A5D98-2226-4116-81DC-1DA73C7E04BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E35A5D98-2226-4116-81DC-1DA73C7E04BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ABC0CE9-7CA8-4FD9-AD99-11675CD55502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ABC0CE9-7CA8-4FD9-AD99-11675CD55502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ABC0CE9-7CA8-4FD9-AD99-11675CD55502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ABC0CE9-7CA8-4FD9-AD99-11675CD55502}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		                SolutionGuid = {B44E4203-1DB7-415C-B224-647D4E75D7DC}
-		                        SolutionGuid = {65423CA1-E2B1-4EB1-8C4C-87AC5182CD24}
-		        SolutionGuid = {55D404D6-8DD2-4A5C-B83C-329F665181CB}
 		SolutionGuid = {9EE55ED9-43A1-48B2-AE1E-0BFF95060815}
+		        SolutionGuid = {55D404D6-8DD2-4A5C-B83C-329F665181CB}
+		                        SolutionGuid = {65423CA1-E2B1-4EB1-8C4C-87AC5182CD24}
+		                SolutionGuid = {B44E4203-1DB7-415C-B224-647D4E75D7DC}
 	EndGlobalSection
 EndGlobal

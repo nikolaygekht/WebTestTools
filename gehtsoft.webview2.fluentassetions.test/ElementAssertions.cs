@@ -297,5 +297,126 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
 
             ((Action)(() => (element.Object).Should().HaveAttribute<T>(name, value))).Should().Throw<XunitException>();
         }
+
+        [Fact]
+        public void BeHtmlTag_Ok()
+        {
+            var element = new Mock<IElement>();
+            element.Setup(e => e.TagName).Returns("body");
+            ((Action)(() => (element.Object).Should().BeHtmlTag("body"))).Should().NotThrow();
+        }
+
+        [Theory]
+        [InlineData("body")]
+        [InlineData("null")]
+        public void BeHtmlTag_Fail(string tag)
+        {
+            var element = new Mock<IElement>();
+            element.Setup(e => e.TagName).Returns(tag);
+            ((Action)(() => (element.Object).Should().BeHtmlTag("head"))).Should().Throw<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("text", "te", StringComparison.Ordinal)]
+        [InlineData("text", "text", StringComparison.Ordinal)]
+        [InlineData("text", "EX", StringComparison.OrdinalIgnoreCase)]
+        [InlineData("text", "ex", StringComparison.Ordinal)]
+        [InlineData("text", "xt", StringComparison.Ordinal)]
+        public void ContainText_Ok(string text, string substring, StringComparison type)
+        {
+            var element = new Mock<IElement>();
+            element.Setup(e => e.InnerText).Returns(text);
+            ((Action)(() => (element.Object).Should().ContainText(substring, type))).Should().NotThrow();
+        }
+
+        [Theory]
+        [InlineData("text", "et", StringComparison.Ordinal)]
+        [InlineData("text", "txet", StringComparison.Ordinal)]
+        [InlineData("text", "EX", StringComparison.Ordinal)]
+        [InlineData(null, "ex", StringComparison.Ordinal)]
+        public void ContainText_Fail(string text, string substring, StringComparison type)
+        {
+            var element = new Mock<IElement>();
+            element.Setup(e => e.InnerText).Returns(text);
+            ((Action)(() => (element.Object).Should().ContainText(substring, type))).Should().Throw<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("text", "te", StringComparison.Ordinal)]
+        [InlineData("text", "text", StringComparison.Ordinal)]
+        [InlineData("text", "EX", StringComparison.OrdinalIgnoreCase)]
+        [InlineData("text", "ex", StringComparison.Ordinal)]
+        [InlineData("text", "xt", StringComparison.Ordinal)]
+        public void ContainHTML_Ok(string text, string substring, StringComparison type)
+        {
+            var element = new Mock<IElement>();
+            element.Setup(e => e.InnerHTML).Returns(text);
+            ((Action)(() => (element.Object).Should().ContainHTML(substring, type))).Should().NotThrow();
+        }
+
+        [Theory]
+        [InlineData("text", "et", StringComparison.Ordinal)]
+        [InlineData("text", "txet", StringComparison.Ordinal)]
+        [InlineData("text", "EX", StringComparison.Ordinal)]
+        [InlineData(null, "ex", StringComparison.Ordinal)]
+        public void ContainHTML_Fail(string text, string substring, StringComparison type)
+        {
+            var element = new Mock<IElement>();
+            element.Setup(e => e.InnerHTML).Returns(text);
+            ((Action)(() => (element.Object).Should().ContainHTML(substring, type))).Should().Throw<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("text", "text")]
+        [InlineData("text another", "text")]
+        [InlineData("another text", "text")]
+        [InlineData("another text and-another", "text")]
+        [InlineData("another text and-another", "and-another")]
+        public void HaveClass_Ok(string text, string substring)
+        {
+            var element = new Mock<IElement>();
+            element.Setup(e => e.Class).Returns(text);
+            ((Action)(() => (element.Object).Should().HaveClass(substring))).Should().NotThrow();
+        }
+
+        [Theory]
+        [InlineData("text", "ext")]
+        [InlineData("", "text")]
+        [InlineData(null, "text")]
+        [InlineData("text", null)]
+        public void HaveClass_Fail(string text, string substring)
+        {
+            var element = new Mock<IElement>();
+            element.Setup(e => e.Class).Returns(text);
+            ((Action)(() => (element.Object).Should().HaveClass(substring))).Should().Throw<XunitException>();
+        }
+
+        [Theory]
+        [InlineData("text", "dext")]
+        [InlineData("text another", "dext")]
+        [InlineData("another text", "dext")]
+        [InlineData("another text and-another", "dext")]
+        [InlineData("another text and-another", "and")]
+        [InlineData(null, "and")]
+        public void NotHaveClass_Ok(string text, string substring)
+        {
+            var element = new Mock<IElement>();
+            element.Setup(e => e.Class).Returns(text);
+            ((Action)(() => (element.Object).Should().NotHaveClass(substring))).Should().NotThrow();
+        }
+
+        [Theory]
+        [InlineData("text", "text")]
+        [InlineData("text another", "text")]
+        [InlineData("another text", "text")]
+        [InlineData("another text and-another", "text")]
+        [InlineData("another text and-another", "and-another")]
+        public void NotHaveClass_Fail(string text, string substring)
+        {
+            var element = new Mock<IElement>();
+            element.Setup(e => e.Class).Returns(text);
+            ((Action)(() => (element.Object).Should().NotHaveClass(substring))).Should().Throw<XunitException>();
+        }
     }
 }
+

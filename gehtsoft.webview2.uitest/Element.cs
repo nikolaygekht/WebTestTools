@@ -101,13 +101,7 @@ namespace Gehtsoft.Webview2.Uitest
         /// <summary>
         /// <para>Returns the element class(es)</para>
         /// </summary>
-        public string Class => Driver.ExecuteScript<string>(CreateAccessor() + ".getAttribute('class')");
-
-        /// <summary>
-        /// <para>Returns the element style(s)</para>
-        /// <para>The method returns only styles applied directly on the element, it won't include styles applied by class</para>
-        /// </summary>
-        public string Style => Driver.ExecuteScript<string>(CreateAccessor() + ".getAttribute('class')");
+        public string Class => Driver.ExecuteScript<string>(CreateAccessor() + ".className");
 
         /// <summary>
         /// <para>Returns the inner HTML</para>

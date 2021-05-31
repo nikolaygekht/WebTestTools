@@ -61,6 +61,26 @@ namespace Gehtsoft.Webview2.FluentAssertions
             return new AndConstraint<ElementAssertions>(this);
         }
 
+        public AndConstraint<ElementAssertions> HaveClass(string value, string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(element => element.Class?.Split(new char[] { ' ' })?.Any(e => e == value) ?? false)
+                .FailWith("Expected {context:element} {0} have class {1} but it has classes {2}", (object)Subject ?? "null", value, Subject?.Class);
+            return new AndConstraint<ElementAssertions>(this);
+        }
+
+        public AndConstraint<ElementAssertions> NotHaveClass(string value, string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(element => !(element.Class?.Split(new char[] { ' ' })?.Any(e => e == value) ?? false))
+                .FailWith("Expected {context:element} {0} not have class {1} but it has classes {2}", (object)Subject ?? "null", value, Subject?.Class);
+            return new AndConstraint<ElementAssertions>(this);
+        }
+
         public AndConstraint<ElementAssertions> IsChecked(bool? value = true, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion

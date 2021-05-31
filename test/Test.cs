@@ -24,7 +24,7 @@ namespace webviewtest
             f.Navigate("https://www.google.com");
             f.ByName["q"].Value = "gehtsoft";
             f.ByName["btnK"].Click();
-            f.WaitFor(d => d.Location.StartsWith("https://www.google.com/search"), 1);
+            f.WaitFor(d => d.Location.StartsWith("https://www.google.com/search"), 5);
             f.XPath("count(/html/body//cite[text()='https://gehtsoftusa.com']) > 0").Should().BeTrue();
         }
 
@@ -66,7 +66,7 @@ namespace webviewtest
 
             f.ByName["btnK"].Click();
 
-            f.WaitFor(d => d.Location.StartsWith("https://www.google.com/search"), 1);
+            f.WaitFor(d => d.Location.StartsWith("https://www.google.com/search"), 5);
 
             f.ByXPath["/html/body"].Exists.Should().BeTrue();
 

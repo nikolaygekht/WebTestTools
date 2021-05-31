@@ -34,12 +34,6 @@
         string Class { get; }
 
         /// <summary>
-        /// <para>Returns the element style(s)</para>
-        /// <para>The method returns only styles applied directly on the element, it won't include styles applied by class</para>
-        /// </summary>
-        string Style { get; }
-
-        /// <summary>
         /// <para>Returns the inner HTML</para>
         /// <para>Outer HTML is the content the element excluding its open and closing tags</para>
         /// </summary>
