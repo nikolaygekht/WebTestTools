@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -95,27 +96,19 @@ namespace Gehtsoft.Webview2.FluentAssertions
             return new AndConstraint<XPathAssertions>(this);
         }
 
-        public AndConstraint<XPathAssertions> Be(int value, string because = null, params object[] becauseParameters)
+        public AndConstraint<XPathAssertions> NotBeApproximately(double value, double delta, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
-                .ForCondition(xpath => Math.Abs(xpath?.AsNumber ?? Double.MinValue - value) < 0.1)
-                .FailWith("Expected {context:xpath} {0} return {1} but it returns {2}", (object)Subject ?? "null", value, Subject?.AsNumber);
-
+                .ForCondition(xpath => Math.Abs(xpath?.AsNumber ?? Double.MaxValue - value) >= delta)
+                .FailWith("Expected {context:xpath} {0} not return {1}+/-{3} but it returns {2}", (object)Subject ?? "null", value, Subject?.AsNumber, delta);
             return new AndConstraint<XPathAssertions>(this);
         }
 
-        public AndConstraint<XPathAssertions> NotBe(int value, string because = null, params object[] becauseParameters)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseParameters)
-                .Given(() => Subject)
-                .ForCondition(xpath => Math.Abs(xpath?.AsNumber ?? Double.MinValue - value) > 0.1)
-                .FailWith("Expected {context:xpath} {0} return not {1} but it returns {2}", (object)Subject ?? "null", value, Subject?.AsNumber);
+        public AndConstraint<XPathAssertions> Be(int value, string because = null, params object[] becauseParameters) => BeApproximately(value, 0.001, because, becauseParameters);
 
-            return new AndConstraint<XPathAssertions>(this);
-        }
+        public AndConstraint<XPathAssertions> NotBe(int value, string because = null, params object[] becauseParameters) => NotBeApproximately(value, 0.001, because, becauseParameters);
 
         public AndConstraint<XPathAssertions> Be(bool value, string because = null, params object[] becauseParameters)
         {
@@ -185,3 +178,4 @@ namespace Gehtsoft.Webview2.FluentAssertions
         }
     }
 }
+

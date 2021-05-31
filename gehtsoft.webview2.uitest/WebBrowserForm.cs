@@ -78,5 +78,24 @@ namespace Gehtsoft.Webview2.Uitest
         {
             NavigationCompleted = false;
         }
+
+        public async Task<IReadOnlyList<Cookie>> GetCookies(string uri)
+        {
+            var cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync(uri);
+            List<Cookie> result = new();
+            foreach (var cookie in cookies)
+            {
+                result.Add(new Cookie()
+                {
+                    Path = cookie.Path,
+                    Name = cookie.Name,
+                    IsSecure = cookie.IsSecure,
+                    IsSession = cookie.IsSession,
+                    Value = cookie.Value,
+                    Expires = cookie.Expires,
+                });
+            }
+            return result;
+        }
     }
 }

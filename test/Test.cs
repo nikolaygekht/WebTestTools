@@ -20,6 +20,7 @@ namespace webviewtest
         {
             using var f = new WebBrowserDriver();
             f.Start();
+            f.Should().BeInitialized();
             f.Navigate("https://www.google.com");
 
             f.ByName["q"].Value = "gehtsoft";
@@ -48,6 +49,8 @@ namespace webviewtest
             f.ByName["q"].Should().HaveValue("gehtsoft")
                     .And.HaveProperty("value", "gehtsoft")
                     .And.HaveAttribute("maxlength", "2048");
+
+            var cookies = f.GetCookies(null);
 
             f.ByXPath["/html/head/title"].Should().ContainText("google", StringComparison.OrdinalIgnoreCase);
 
