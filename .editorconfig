@@ -9,3 +9,6 @@ dotnet_diagnostic.RCS1146.severity = none
 
 # IDE0090: Use 'new(...)'
 dotnet_diagnostic.IDE0090.severity = none
+
+# S4136: Method overloads should be grouped together
+dotnet_diagnostic.S4136.severity = none

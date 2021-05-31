@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gehtsoft.Webview2.Uitest
 {
-    public class XPath
+    public class XPath : IFormattable
     {
         private readonly WebBrowserDriver mDriver;
         private readonly string mExpression;
@@ -16,14 +16,17 @@ namespace Gehtsoft.Webview2.Uitest
         public string AsString => mDriver.ExecuteScript<string>($"document.evaluate(\"{mExpression}\", document, null, XPathResult.STRING_TYPE).stringValue");
 
         public double AsNumber => mDriver.ExecuteScript<double>($"document.evaluate(\"{mExpression}\", document, null, XPathResult.NUMBER_TYPE).numberValue");
-        
-        public bool AsBoolean => mDriver.ExecuteScript<bool>($"document.evaluate(\"{mExpression}\", document, null, XPathResult.BOOLEAN_TYPE).booleanValue");
 
+        public bool AsBoolean => mDriver.ExecuteScript<bool>($"document.evaluate(\"{mExpression}\", document, null, XPathResult.BOOLEAN_TYPE).booleanValue");
 
         internal XPath(WebBrowserDriver driver, string expression)
         {
             mDriver = driver;
             mExpression = expression;
         }
+
+        public override string ToString() => mExpression;
+
+        public string ToString(string format, IFormatProvider formatProvider) => mExpression;
     }
 }

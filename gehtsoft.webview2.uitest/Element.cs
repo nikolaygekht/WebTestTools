@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 
 namespace Gehtsoft.Webview2.Uitest
 {
@@ -10,7 +11,7 @@ namespace Gehtsoft.Webview2.Uitest
     /// <see cref="WebBrowserDriverExtensions.ElementByName(WebBrowserDriver, string, int)"/>, and
     /// <see cref="<see cref="WebBrowserDriverExtensions.ElementByPath(WebBrowserDriver, string)"/></para>
     /// </summary>
-    public sealed class Element
+    public sealed class Element : IFormattable
     {
         /// <summary>
         /// Locator types
@@ -57,8 +58,8 @@ namespace Gehtsoft.Webview2.Uitest
             return LocatorType switch
             {
                 LocatorTypes.Id => $"document.getElementById('{Locator}')",
-                LocatorTypes.Name => $"document.getElementsByName('{Locator}')[{Index}]",
-                LocatorTypes.Class => $"document.getElementsByClassName('{Locator}')[{Index}]",
+                LocatorTypes.Name => $"document.getElementsByName('{Locator}')[{Index ?? 0}]",
+                LocatorTypes.Class => $"document.getElementsByClassName('{Locator}')[{Index ?? 0}]",
                 LocatorTypes.XPath => $"((document.evaluate(\"{Locator}\", document)).iterateNext())",
                 _ => throw new InvalidOperationException($"Unsupported locator type {LocatorType}")
             };
@@ -73,8 +74,8 @@ namespace Gehtsoft.Webview2.Uitest
             return LocatorType switch
             {
                 LocatorTypes.Id => $"document.getElementById('{Locator}') != null",
-                LocatorTypes.Name => $"document.getElementsByName('{Locator}').length > 0",
-                LocatorTypes.Class => $"document.getElementByClassName('{Locator}').length > 0",
+                LocatorTypes.Name => $"document.getElementsByName('{Locator}').length > {Index ?? 0}",
+                LocatorTypes.Class => $"document.getElementByClassName('{Locator}').length > {Index ?? 0}",
                 LocatorTypes.XPath => $"document.evaluate(\"count({Locator})>0\", document, null, XPathResult.BOOLEAN_TYPE).booleanValue",
                 _ => throw new InvalidOperationException($"Unsupported locator type {LocatorType}")
             };
@@ -99,13 +100,13 @@ namespace Gehtsoft.Webview2.Uitest
         /// <summary>
         /// <para>Returns the element class(es)</para>
         /// </summary>
-        public string Class => Driver.ExecuteScript<string>(CreateAccessor() + ".className");
+        public string Class => Driver.ExecuteScript<string>(CreateAccessor() + ".getAttribute('class')");
 
         /// <summary>
         /// <para>Returns the element style(s)</para>
         /// <para>The method returns only styles applied directly on the element, it won't include styles applied by class</para>
         /// </summary>
-        public string Style => Driver.ExecuteScript<string>(CreateAccessor() + ".style");
+        public string Style => Driver.ExecuteScript<string>(CreateAccessor() + ".getAttribute('class')");
 
         /// <summary>
         /// <para>Returns the inner HTML</para>
@@ -152,8 +153,31 @@ namespace Gehtsoft.Webview2.Uitest
             }
         }
 
-        public T GetProperty<T>(string propertyName) => Driver.ExecuteScript<T>(CreateAccessor() + "." + propertyName);
+        public string GetAttribute(string propertyName) => Driver.ExecuteScript<string>($"{CreateAccessor()}.getAttribute('{propertyName}')");
+
+        public T GetProperty<T>(string propertyName) => Driver.ExecuteScript<T>($"{CreateAccessor()}.{propertyName}");
 
         public void Click() => Driver.ExecuteScript(CreateAccessor() + ".click()");
+
+        public override string ToString() => ToString(null, null);
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("element[")
+              .Append(LocatorType)
+              .Append('=')
+              .Append(Locator);
+
+            if (Index != null)
+            {
+                sb.Append('[')
+                 .Append(Index.Value)
+                 .Append(']');
+            }
+
+            sb.Append(']');
+            return sb.ToString();
+        }
     }
 }

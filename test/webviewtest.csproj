@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\gehtsoft.webview2.fluentassetions\Gehtsoft.Webview2.FluentAssertions.csproj" />
     <ProjectReference Include="..\gehtsoft.webview2.uitest\Gehtsoft.Webview2.Uitest.csproj" />
   </ItemGroup>
 </Project>

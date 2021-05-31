@@ -8,7 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.818.41" />
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\gehtsoft.webview2.uitest\Gehtsoft.Webview2.Uitest.csproj" />
   </ItemGroup>
 </Project>
