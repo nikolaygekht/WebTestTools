@@ -87,8 +87,8 @@ namespace webviewtest
             return LocatorType switch
             {
                 LocatorTypes.Id => $"document.getElementById('{Locator}') != null",
-                LocatorTypes.Name => $"document.getElementsByName('{Locator}').length > 0",
-                LocatorTypes.XPath => $"document.evaluate(\"count({Locator})>0\", document, null, XPathResult.BOOLEAN_TYPE).booleanValue",
+                LocatorTypes.Name => $"document.getElementsByName('{Locator}').length > {Index ?? 0}",
+                LocatorTypes.XPath => $"document.evaluate(\"count({Locator})>{Index ?? 0}\", document, null, XPathResult.BOOLEAN_TYPE).booleanValue",
                 _ => throw new InvalidOperationException($"Unsupported locator type {LocatorType}")
             };
         }
