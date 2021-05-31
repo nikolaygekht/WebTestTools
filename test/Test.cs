@@ -22,12 +22,9 @@ namespace webviewtest
             f.Start();
             f.Should().BeInitialized();
             f.Navigate("https://www.google.com");
-
             f.ByName["q"].Value = "gehtsoft";
             f.ByName["btnK"].Click();
-
             f.WaitFor(d => d.Location.StartsWith("https://www.google.com/search"), 1);
-
             f.XPath("count(/html/body//cite[text()='https://gehtsoftusa.com']) > 0").Should().BeTrue();
         }
 
@@ -48,7 +45,8 @@ namespace webviewtest
 
             f.ByName["q"].Should().HaveValue("gehtsoft")
                     .And.HaveProperty("value", "gehtsoft")
-                    .And.HaveAttribute("maxlength", "2048");
+                    .And.HaveAttribute("maxlength", "2048")
+                    .And.HaveAttribute<int>("maxlength", 2048);
 
             var cookies = f.GetCookies(null);
 

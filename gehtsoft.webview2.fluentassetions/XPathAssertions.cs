@@ -8,11 +8,11 @@ using Gehtsoft.Webview2.Uitest;
 
 namespace Gehtsoft.Webview2.FluentAssertions
 {
-    public class XPathAssertions : ReferenceTypeAssertions<XPath, XPathAssertions>
+    public class XPathAssertions : ReferenceTypeAssertions<IXPath, XPathAssertions>
     {
         protected override string Identifier => "xpath";
 
-        public XPathAssertions(XPath subject) : base(subject)
+        public XPathAssertions(IXPath subject) : base(subject)
         {
         }
 
@@ -42,6 +42,16 @@ namespace Gehtsoft.Webview2.FluentAssertions
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => xpath?.AsNumber == value)
+                .FailWith("Expected {context:xpath} {0} return {1} but it returns {2}", (object)Subject ?? "null", value, Subject?.AsNumber);
+            return new AndConstraint<XPathAssertions>(this);
+        }
+
+        public AndConstraint<XPathAssertions> NotBe(double value, string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(xpath => xpath?.AsNumber != value)
                 .FailWith("Expected {context:xpath} {0} return {1} but it returns {2}", (object)Subject ?? "null", value, Subject?.AsNumber);
             return new AndConstraint<XPathAssertions>(this);
         }
@@ -91,7 +101,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
-                .ForCondition(xpath => Math.Abs(xpath?.AsNumber ?? Double.MaxValue - value) < delta)
+                .ForCondition(xpath => Math.Abs((xpath?.AsNumber ?? Double.MaxValue) - value) <= delta)
                 .FailWith("Expected {context:xpath} {0} return {1}+/-{3} but it returns {2}", (object)Subject ?? "null", value, Subject?.AsNumber, delta);
             return new AndConstraint<XPathAssertions>(this);
         }
@@ -101,7 +111,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
-                .ForCondition(xpath => Math.Abs(xpath?.AsNumber ?? Double.MaxValue - value) >= delta)
+                .ForCondition(xpath => Math.Abs((xpath?.AsNumber ?? Double.MaxValue) - value) > delta)
                 .FailWith("Expected {context:xpath} {0} not return {1}+/-{3} but it returns {2}", (object)Subject ?? "null", value, Subject?.AsNumber, delta);
             return new AndConstraint<XPathAssertions>(this);
         }
@@ -137,8 +147,8 @@ namespace Gehtsoft.Webview2.FluentAssertions
             Execute.Assertion
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
-               .ForCondition(xpath => xpath.AsElement.Exists)
-               .FailWith("Expected {context:xpath} {0} returns an element but it does not", (object)Subject ?? "null");
+               .ForCondition(xpath => xpath?.AsElement?.Exists == true)
+               .FailWith("Expected {context:xpath} {0} returns an xpath but it does not", (object)Subject ?? "null");
 
             return new AndConstraint<XPathAssertions>(this);
         }
@@ -148,8 +158,8 @@ namespace Gehtsoft.Webview2.FluentAssertions
             Execute.Assertion
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
-               .ForCondition(xpath => !xpath.AsElement.Exists)
-               .FailWith("Expected {context:xpath} {0} not return an element but it does", (object)Subject ?? "null");
+               .ForCondition(xpath => xpath?.AsElement?.Exists != true)
+               .FailWith("Expected {context:xpath} {0} not return an xpath but it does", (object)Subject ?? "null");
 
             return new AndConstraint<XPathAssertions>(this);
         }
@@ -157,22 +167,22 @@ namespace Gehtsoft.Webview2.FluentAssertions
         public AndConstraint<XPathAssertions> BeTrue(string because = null, params object[] becauseParameters) => Be(true, because, becauseParameters);
         public AndConstraint<XPathAssertions> BeFalse(string because = null, params object[] becauseParameters) => Be(false, because, becauseParameters);
 
-        new public AndConstraint<XPathAssertions> Match(Expression<Func<XPath, bool>> predicate, string because = null, params object[] becauseParameters)
+        new public AndConstraint<XPathAssertions> Match(Expression<Func<IXPath, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
-                .ForCondition(element => predicate.Compile().Invoke(element))
+                .ForCondition(xpath => predicate.Compile().Invoke(xpath))
                 .FailWith("Expected {context:xpath} {0} matches the predicate {1} but it does not", (object)Subject ?? "null", predicate);
             return new AndConstraint<XPathAssertions>(this);
         }
 
-        public AndConstraint<XPathAssertions> NotMatch(Expression<Func<XPath, bool>> predicate, string because = null, params object[] becauseParameters)
+        public AndConstraint<XPathAssertions> NotMatch(Expression<Func<IXPath, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
-                .ForCondition(element => !predicate.Compile().Invoke(element))
+                .ForCondition(xpath => !predicate.Compile().Invoke(xpath))
                 .FailWith("Expected {context:xpath} {0} not matches the predicate {1} but it does not", (object)Subject ?? "null", predicate);
             return new AndConstraint<XPathAssertions>(this);
         }

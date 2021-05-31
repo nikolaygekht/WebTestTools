@@ -13,11 +13,11 @@ using Gehtsoft.Webview2.Uitest;
 
 namespace Gehtsoft.Webview2.FluentAssertions
 {
-    public class ElementAssertions : ReferenceTypeAssertions<Element, ElementAssertions>
+    public class ElementAssertions : ReferenceTypeAssertions<IElement, ElementAssertions>
     {
         protected override string Identifier => "element";
 
-        public ElementAssertions(Element subject) : base(subject)
+        public ElementAssertions(IElement subject) : base(subject)
         {
         }
 
@@ -46,8 +46,28 @@ namespace Gehtsoft.Webview2.FluentAssertions
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
-                .ForCondition(element => element.Value == value)
+                .ForCondition(element => element?.Value == value)
                 .FailWith("Expected {context:element} {0} have value {1} but it has value {2}", (object)Subject ?? "null", value, Subject.Value);
+            return new AndConstraint<ElementAssertions>(this);
+        }
+
+        public AndConstraint<ElementAssertions> NotHaveValue(string value, string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(element => element?.Value != value)
+                .FailWith("Expected {context:element} {0} have value {1} but it has value {2}", (object)Subject ?? "null", value, Subject.Value);
+            return new AndConstraint<ElementAssertions>(this);
+        }
+
+        public AndConstraint<ElementAssertions> IsChecked(bool? value = true, string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(element => element.Checked == value)
+                .FailWith("Expected {context:element} {0} have checked property to be {1} but it has value {2}", (object)Subject ?? "null", value, Subject.Checked);
             return new AndConstraint<ElementAssertions>(this);
         }
 
@@ -61,12 +81,59 @@ namespace Gehtsoft.Webview2.FluentAssertions
             return new AndConstraint<ElementAssertions>(this);
         }
 
+        public AndConstraint<ElementAssertions> NotHaveProperty<T>(string propertyName, T value, string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(element => !(element?.GetProperty<T>(propertyName).Equals(value) ?? false))
+                .FailWith("Expected {context:element} {0} have property {3} value {1} but it has value {2}", (object)Subject ?? "null", value, Subject.GetProperty<T>(propertyName), propertyName);
+            return new AndConstraint<ElementAssertions>(this);
+        }
+
         public AndConstraint<ElementAssertions> HaveAttribute(string attributeName, string value, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element?.GetAttribute(attributeName).Equals(value) ?? false)
+                .FailWith("Expected {context:element} {0} have attribute {3} value {1} but it has value {2}", (object)Subject ?? "null", value, Subject.GetAttribute(attributeName), attributeName);
+            return new AndConstraint<ElementAssertions>(this);
+        }
+
+        public AndConstraint<ElementAssertions> NotHaveAttribute(string attributeName, string value, string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(element => !(element?.GetAttribute(attributeName).Equals(value) ?? false))
+                .FailWith("Expected {context:element} {0} have attribute {3} value {1} but it has value {2}", (object)Subject ?? "null", value, Subject.GetAttribute(attributeName), attributeName);
+            return new AndConstraint<ElementAssertions>(this);
+        }
+
+        public AndConstraint<ElementAssertions> HaveAttribute<T>(string attributeName, T value, string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseParameters)
+                .Given(() => Subject)
+                .ForCondition(element =>
+                {
+                    if (element == null)
+                        return false;
+
+                    T v = default;
+
+                    try
+                    {
+                        v = element.GetAttribute<T>(attributeName);
+                    }
+                    catch (FormatException )
+                    {
+                        return false;
+                    }
+
+                    return v.Equals(value);
+                })
                 .FailWith("Expected {context:element} {0} have attribute {3} value {1} but it has value {2}", (object)Subject ?? "null", value, Subject.GetAttribute(attributeName), attributeName);
             return new AndConstraint<ElementAssertions>(this);
         }
@@ -101,7 +168,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
             return new AndConstraint<ElementAssertions>(this);
         }
 
-        new public AndConstraint<ElementAssertions> Match(Expression<Func<Element, bool>> predicate, string because = null, params object[] becauseParameters)
+        new public AndConstraint<ElementAssertions> Match(Expression<Func<IElement, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
@@ -111,7 +178,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
             return new AndConstraint<ElementAssertions>(this);
         }
 
-        public AndConstraint<ElementAssertions> NotMatch(Expression<Func<Element, bool>> predicate, string because = null, params object[] becauseParameters)
+        public AndConstraint<ElementAssertions> NotMatch(Expression<Func<IElement, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)

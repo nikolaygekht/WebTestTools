@@ -13,6 +13,6 @@ namespace Gehtsoft.Webview2.FluentAssertions
 {
     public static class ElementExtension
     {
-        public static ElementAssertions Should(this Element element) => new ElementAssertions(element);
+        public static ElementAssertions Should(this IElement element) => new ElementAssertions(element);
     }
 }

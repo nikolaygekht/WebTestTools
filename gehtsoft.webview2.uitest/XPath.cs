@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Gehtsoft.Webview2.Uitest
 {
-    public class XPath : IFormattable
+    public class XPath : IXPath, IFormattable
     {
         private readonly WebBrowserDriver mDriver;
         private readonly string mExpression;
 
-        public Element AsElement => new Element(mDriver, Element.LocatorTypes.XPath, mExpression);
+        public IElement AsElement => new Element(mDriver, Element.LocatorTypes.XPath, mExpression);
 
         public string AsString => mDriver.ExecuteScript<string>($"document.evaluate(\"{mExpression}\", document, null, XPathResult.STRING_TYPE).stringValue");
 

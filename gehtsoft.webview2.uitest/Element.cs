@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Linq;
 using System.Text;
 
@@ -11,7 +12,7 @@ namespace Gehtsoft.Webview2.Uitest
     /// <see cref="WebBrowserDriverExtensions.ElementByName(WebBrowserDriver, string, int)"/>, and
     /// <see cref="<see cref="WebBrowserDriverExtensions.ElementByPath(WebBrowserDriver, string)"/></para>
     /// </summary>
-    public sealed class Element : IFormattable
+    public sealed class Element : IElement, IFormattable
     {
         /// <summary>
         /// Locator types
@@ -153,7 +154,7 @@ namespace Gehtsoft.Webview2.Uitest
             }
         }
 
-        public string GetAttribute(string propertyName) => Driver.ExecuteScript<string>($"{CreateAccessor()}.getAttribute('{propertyName}')");
+        public string GetAttribute(string attributeName) => Driver.ExecuteScript<string>($"{CreateAccessor()}.getAttribute('{attributeName}')");
 
         public T GetProperty<T>(string propertyName) => Driver.ExecuteScript<T>($"{CreateAccessor()}.{propertyName}");
 

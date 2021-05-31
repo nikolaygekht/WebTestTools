@@ -4,6 +4,6 @@ namespace Gehtsoft.Webview2.FluentAssertions
 {
     public static class XPathExtension
     {
-        public static XPathAssertions Should(this XPath xpath) => new XPathAssertions(xpath);
+        public static XPathAssertions Should(this IXPath xpath) => new XPathAssertions(xpath);
     }
 }
