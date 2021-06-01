@@ -2,6 +2,7 @@
 .git/
 .vs/
 .nuget/
+.nuspec/
 bin/
 obj/
 TestResults/

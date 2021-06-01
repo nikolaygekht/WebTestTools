@@ -1,0 +1,22 @@
+﻿<settings>
+    <assembly name="gehtsoft.webview2.uitest"  xmldoc="../../../bin/doc.xml"/>
+    <assembly name="gehtsoft.webview2.fluentassertions"  xmldoc="../../../bin/doc.xml"/>
+    <assembly name="gehtsoft.htmlagilitypack.fluentassertions"  xmldoc="../../../bin/doc.xml"/>
+    <assembly name="gehtsoft.webtest.spellchecker"  xmldoc="../../../bin/doc.xml"/>
+
+    <strip-namespace name="System" />
+    <strip-namespace name="System.Linq" />
+    <strip-namespace name="System.Collections" />
+    <strip-namespace name="System.Collections.Generic" />
+    <strip-namespace name="System.Xml.Serialization" />
+    <strip-namespace name="System.Text.Json" />
+    <strip-namespace name="FluentAssertions" />
+    <strip-namespace name="FluentAssertions.Primitives" />
+    <strip-namespace name="HtmlAgilityPack" />
+    <strip-namespace name="Microsoft.Web.WebView2.Core" />
+    <strip-namespace name="Microsoft.Web.WebView2.WinForms" />
+    <strip-namespace name="Gehtsoft.Webview2.Uitest" />
+    <strip-namespace name="Gehtsoft.Webview2.FluentAssertions" />
+    <strip-namespace name="Gehtsoft.HtmlAgilityPack.FluentAssertions" />
+    <strip-namespace name="Gehtsoft.Webtest.Spellchecker" />
+</settings>

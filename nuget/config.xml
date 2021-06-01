@@ -20,5 +20,8 @@
    <project id="Gehtsoft.HtmlAgilityPack.FluentAssertions">
     <description>Fluent Assertions for HtmlAgility pack and System.Text.Json</description>
    </project>
+   <project id="Gehtsoft.Webtest.Spellchecker">
+    <description>Fluent Assertions for spellchecking the test</description>
+   </project>
  </projects>
 </nuget>

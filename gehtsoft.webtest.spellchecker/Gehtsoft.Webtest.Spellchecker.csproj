@@ -5,6 +5,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <DocumentationFile>bin/doc.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
