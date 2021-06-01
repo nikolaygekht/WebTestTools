@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
-using Newtonsoft.Json;
 
 namespace webviewtest
 {
@@ -137,7 +136,7 @@ namespace webviewtest
             if (s == null || s == "null")
                 return default;
 
-            return JsonConvert.DeserializeObject<T>(s);
+            return JsonSerializer.Deserialize<T>(s);
         }
 
         /// <summary>
