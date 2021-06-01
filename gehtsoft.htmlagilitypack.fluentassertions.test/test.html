@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>The test page</title>
+    <link href="/Media/content/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/Media/content/script/jquery.min.js"></script>
+</head>
+<body>
+    <noscript>
+        <p>JavaScript must be enabled in order to make this site properly working. Please enable JavaScript and reload the page using Shift-F5</p>
+    </noscript>
+    <form method="post" action="/Media/Library/Search">
+        <fieldset>
+            <label for="Text" class="k-content">Search for:</label>
+            <div class="form-group fw">
+                <input class="fw" id="text" name="Text" autofocus>
+            </div>
+        </fieldset>
+        <fieldset>
+            <input class="k-checkbox form-control" id="Allwords" type="checkbox" name="Allwords" value="true">
+            <label for="Allwords" class="k-checkbox-label"> Search for all words</label>
+        </fieldset>
+        <fieldset>
+            <input class="k-checkbox form-control" id="InAuthors" type="checkbox" name="InAuthors" value="true" checked>
+            <label for="InAuthors" class="k-checkbox-label"> Search for author names</label>
+            <input class="k-checkbox form-control" id="InAuthorDescription" type="checkbox" name="InAuthorDescription" value="true">
+            <label for="InAuthorDescription" class="k-checkbox-label"> Search for author descriptions</label>
+        </fieldset>
+        <fieldset>
+            <input class="k-checkbox form-control" id="InSequences" type="checkbox" name="InSequences" value="true">
+            <label for="InSequences" class="k-checkbox-label"> Search for sequences</label>
+        </fieldset>
+        <fieldset>
+            <input class="k-checkbox form-control" id="InBookTitles" type="checkbox" name="InBookTitles" value="true" checked>
+            <label for="InBookTitles" class="k-checkbox-label"> Search for book titles</label>
+            <input class="k-checkbox form-control" id="InBookAnnotations" type="checkbox" name="InBookAnnotations" value="true">
+            <label for="InBookAnnotations" class="k-checkbox-label"> Search for book annotations</label>
+            <input class="k-checkbox form-control" id="InBookContent" type="checkbox" name="InBookContent" value="true">
+            <label for="InBookContent" class="k-checkbox-label"> Search for book content</label>
+        </fieldset>
+        <fieldset>
+            <button class="k-primary k-button" id="submit" type="submit">Search</button>
+        </fieldset>
+    </form>
+    <script>
+        $(document).ready(function () {
+            $("#topMenu").kendoMenu();
+            $("#topMenuMobile").kendoMenu();
+            $("#menucontainer").show();
+        });
+    </script>
+</body>
+</html>

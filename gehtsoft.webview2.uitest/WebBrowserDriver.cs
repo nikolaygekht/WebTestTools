@@ -9,16 +9,133 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
-using Newtonsoft.Json;
 
-namespace webviewtest
+namespace Gehtsoft.Webview2.Uitest
 {
+
     /// <summary>
     /// <para>The class to create and use in-process web browser. </para>
     /// <para>See also <see cref="WebBrowserDriverExtensions"/> for extension methods.</para>
     /// </summary>
     public sealed class WebBrowserDriver : IDisposable
     {
+        /// <summary>
+        /// Controller to access element by its name
+        /// </summary>
+        public class ByNameController
+        {
+            private readonly WebBrowserDriver mDriver;
+
+            internal ByNameController(WebBrowserDriver driver)
+            {
+                mDriver = driver;
+            }
+
+            /// <summary>
+            /// Gets the specified element by its name and index among the elements with the same name
+            /// </summary>
+            /// <param name="name"></param>
+            /// <param name="index"></param>
+            /// <returns></returns>
+            public Element this[string name, int index = 0] => new Element(mDriver, Element.LocatorTypes.Name, name, index);
+        }
+
+        /// <summary>
+        /// Controller to access element by its class
+        /// </summary>
+        public class ByClassController
+        {
+            private readonly WebBrowserDriver mDriver;
+
+            internal ByClassController(WebBrowserDriver driver)
+            {
+                mDriver = driver;
+            }
+
+            /// <summary>
+            /// Gets the specified element by its class and index among the elements that belong to the same class
+            /// </summary>
+            /// <param name="name"></param>
+            /// <param name="index"></param>
+            public Element this[string name, int index = 0] => new Element(mDriver, Element.LocatorTypes.Class, name, index);
+        }
+
+        /// <summary>
+        /// Controller to access element by its identifier
+        /// </summary>
+        public class ByIdController
+        {
+            private readonly WebBrowserDriver mDriver;
+
+            internal ByIdController(WebBrowserDriver driver)
+            {
+                mDriver = driver;
+            }
+
+            /// <summary>
+            /// Gets the specified element by its unique identifier
+            /// </summary>
+            /// <param name="name"></param>
+            public Element this[string name] => new Element(mDriver, Element.LocatorTypes.Id, name);
+        }
+
+        /// <summary>
+        /// Controller to access element by XPath
+        /// </summary>
+        public class ByXPathController
+        {
+            private readonly WebBrowserDriver mDriver;
+
+            internal ByXPathController(WebBrowserDriver driver)
+            {
+                mDriver = driver;
+            }
+
+            /// <summary>
+            /// XPath that access to the element
+            /// </summary>
+            /// <param name="xpath"></param>
+            public Element this[string xpath] => new Element(mDriver, Element.LocatorTypes.XPath, xpath);
+        }
+
+        /// <summary>
+        /// The access point to the elements by their name
+        /// </summary>
+        public ByNameController ByName { get; }
+
+        /// <summary>
+        /// The access point to the elements by their class
+        /// </summary>
+        public ByClassController ByClass { get; }
+
+        /// <summary>
+        /// The access point to the elements by their identifier
+        /// </summary>
+        public ByIdController ById { get; }
+
+        /// <summary>
+        /// The access point to the elements by XPath
+        /// </summary>
+        public ByXPathController ByXPath { get; }
+
+        /// <summary>
+        /// Return the current location (URL)
+        /// </summary>
+        /// <param name="driver"></param>
+        /// <returns></returns>
+        public string Location => ExecuteScript<string>("document.location.href");
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public WebBrowserDriver()
+        {
+            ByName = new ByNameController(this);
+            ByClass = new ByClassController(this);
+            ById = new ByIdController(this);
+            ByXPath = new ByXPathController(this);
+        }
+
         private WebBrowserForm mForm = null;
         private Thread mThread = null;
 
@@ -125,6 +242,15 @@ namespace webviewtest
         }
 
         /// <summary>
+        /// Executes script that returns no value
+        /// </summary>
+        /// <param name="script"></param>
+        public void ExecuteScript(string script)
+        {
+            ExecuteScriptRaw(script);
+        }
+
+        /// <summary>
         /// Executes the script and parses a returned json object into the type specified
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -137,7 +263,7 @@ namespace webviewtest
             if (s == null || s == "null")
                 return default;
 
-            return JsonConvert.DeserializeObject<T>(s);
+            return JsonSerializer.Deserialize<T>(s);
         }
 
         /// <summary>
@@ -217,14 +343,12 @@ namespace webviewtest
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public IReadOnlyList<CoreWebView2Cookie> GetCookies(string uri)
+        public IReadOnlyList<Cookie> GetCookies(string uri)
         {
-            if (WebView?.CoreWebView2 == null)
+            if (!HasCore)
                 throw new InvalidOperationException("The control is not initialized yet");
-
-            var task = WebView.CoreWebView2.CookieManager.GetCookiesAsync(uri);
-            task.Wait();
-            return task.Result;
+            var t = Perform(() => mForm.GetCookies(uri));
+            return t.Result;
         }
 
         /// <summary>
@@ -234,11 +358,13 @@ namespace webviewtest
         /// <param name="uri"></param>
         public void DeleteCookie(string name, string uri)
         {
-            if (WebView?.CoreWebView2 == null)
+            if (!HasCore)
                 throw new InvalidOperationException("The control is not initialized yet");
 
-            WebView.CoreWebView2.CookieManager.DeleteCookies(name, uri);
+            Perform(() => WebView.CoreWebView2.CookieManager.DeleteCookies(name, uri));
         }
+
+        public XPath XPath(string expression) => new XPath(this, expression);
 
         /// <summary>
         /// Form thread.

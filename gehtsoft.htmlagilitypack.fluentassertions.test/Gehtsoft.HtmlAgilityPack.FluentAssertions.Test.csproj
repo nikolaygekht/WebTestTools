@@ -8,10 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Remove="test.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="test.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -25,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\gehtsoft.webview2.fluentassertions\Gehtsoft.Webview2.FluentAssertions.csproj" />
-    <ProjectReference Include="..\gehtsoft.webview2.uitest\Gehtsoft.Webview2.Uitest.csproj" />
+    <ProjectReference Include="..\gehtsoft.htmlagilitypack.fluentassertions\Gehtsoft.HtmlAgilityPack.FluentAssertions.csproj" />
   </ItemGroup>
 </Project>

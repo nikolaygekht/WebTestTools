@@ -10,12 +10,13 @@ using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 
-namespace webviewtest
+#pragma warning disable IDE1006 // Naming Styles
+
+namespace Gehtsoft.Webview2.Uitest
 {
     /// <summary>
-    /// A form with web browser. 
-    /// 
-    /// Don't create the form directly, use <see cref="WebBrowserDriver"/> class instead.
+    /// <para>A form with web browser. </para>
+    /// <para>Don't create the form directly, use <see cref="WebBrowserDriver"/> class instead.</para>
     /// </summary>
     public partial class WebBrowserForm : Form
     {
@@ -51,7 +52,6 @@ namespace webviewtest
         {
             NavigationCompleted = false;
             webViewControl.CoreWebView2.Navigate(url);
-
         }
 
         /// <summary>
@@ -77,6 +77,25 @@ namespace webviewtest
         private void webViewControl_NavigationStarting(object sender, CoreWebView2NavigationStartingEventArgs e)
         {
             NavigationCompleted = false;
+        }
+
+        public async Task<IReadOnlyList<Cookie>> GetCookies(string uri)
+        {
+            var cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync(uri);
+            List<Cookie> result = new();
+            foreach (var cookie in cookies)
+            {
+                result.Add(new Cookie()
+                {
+                    Path = cookie.Path,
+                    Name = cookie.Name,
+                    IsSecure = cookie.IsSecure,
+                    IsSession = cookie.IsSession,
+                    Value = cookie.Value,
+                    Expires = cookie.Expires,
+                });
+            }
+            return result;
         }
     }
 }

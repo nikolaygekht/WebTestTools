@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<nuget xmlns="http://www.gehtsoft.com/build/nuget">
+ <!-- versions. the FIRST version is the current -->
+ <versions>
+  <version id="1.0.1">The first version</version>
+ </versions>
+ <properties>
+  <owner>Gehtsoft</owner>
+  <projectUrl>https://github.com/nikolaygekht/webview2_as_web_ui_test/tree/main-v2</projectUrl>
+  <license type="expression">LGPL-2.1-or-later</license>
+  <copyright>Gehtsoft USA LLC 2021</copyright>
+ </properties>
+ <projects>
+   <project id="Gehtsoft.Webview2.Uitest">
+    <description>Test support for WebView 2</description>
+   </project>
+   <project id="Gehtsoft.Webview2.FluentAssertions">
+    <description>Fluent Assertions extension for WebView2 control</description>
+   </project>
+   <project id="Gehtsoft.HtmlAgilityPack.FluentAssertions">
+    <description>Fluent Assertions for HtmlAgility pack and System.Text.Json</description>
+   </project>
+ </projects>
+</nuget>
