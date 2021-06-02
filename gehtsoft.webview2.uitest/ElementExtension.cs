@@ -2,13 +2,17 @@
 
 namespace Gehtsoft.Webview2.Uitest
 {
+    /// <summary>
+    /// The extension methods for <see cref="IElement"/> implementations.
+    /// </summary>
     public static class ElementExtension
     {
         /// <summary>
-        /// <para>Gets attribute value as the type specicied.</para>
-        /// <para>Only `int`, `double`, `string`, and `bool` types are supproted</para>
+        /// <para>Gets attribute value as the type specified.</para>
+        /// <para>Only `int`, `double`, `string`, and `bool` types are supported</para>
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="element"></param>
         /// <param name="attributeName"></param>
         /// <returns></returns>
         public static T GetAttribute<T>(this IElement element, string attributeName)

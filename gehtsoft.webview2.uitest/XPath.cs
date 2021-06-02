@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gehtsoft.Webview2.Uitest
 {
-    public class XPath : IXPath, IFormattable
+    internal class XPath : IXPath, IFormattable
     {
         private readonly WebBrowserDriver mDriver;
         private readonly string mExpression;

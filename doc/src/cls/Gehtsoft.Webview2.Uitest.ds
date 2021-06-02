@@ -1,0 +1,8 @@
+﻿@group
+    @title=Namespace Gehtsoft.Webview2.Uitest
+    @key=Gehtsoft.Webview2.Uitest
+    @ingroup=main
+    @brief=The namespace is designed to create UI-tests using `WebView2` control.
+
+
+@end

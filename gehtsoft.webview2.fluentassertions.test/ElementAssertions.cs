@@ -14,7 +14,6 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
 {
     public class ElementAssertionsTest
     {
-
         [Fact]
         public void Exist_Ok()
         {
@@ -58,6 +57,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void HaveValue_Ok(string v)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.Value).Returns(v);
 
             ((Action)(() => (element.Object).Should().HaveValue(v))).Should().NotThrow();
@@ -72,6 +72,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void HaveValue_Fail(string v, string v1)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.Value).Returns(v);
 
             ((Action)(() => (element.Object).Should().HaveValue(v1))).Should().Throw<XunitException>();
@@ -86,6 +87,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void NotHaveValue_Ok(string v, string v1)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.Value).Returns(v);
 
             ((Action)(() => (element.Object).Should().NotHaveValue(v1))).Should().NotThrow();
@@ -98,6 +100,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void NotHaveValue_Fail(string v)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.Value).Returns(v);
 
             ((Action)(() => (element.Object).Should().NotHaveValue(v))).Should().Throw<XunitException>();
@@ -110,6 +113,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void IsChecked_Ok(bool? v)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.Checked).Returns(v);
 
             ((Action)(() => (element.Object).Should().IsChecked(v))).Should().NotThrow();
@@ -124,6 +128,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void IsChecked_Fail(bool? v1, bool? v2)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.Checked).Returns(v1);
 
             ((Action)(() => (element.Object).Should().IsChecked(v2))).Should().Throw<XunitException>();
@@ -133,6 +138,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void Match_Ok()
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             ((Action)(() => (element.Object).Should().Match(_ => true))).Should().NotThrow();
         }
 
@@ -140,6 +146,8 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void Match_Fail()
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
+
             ((Action)(() => (element.Object).Should().Match(_ => false))).Should().Throw<XunitException>();
         }
 
@@ -147,6 +155,8 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void NotMatch_Ok()
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
+
             ((Action)(() => (element.Object).Should().NotMatch(_ => false))).Should().NotThrow();
         }
 
@@ -154,6 +164,8 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void NotMatch_Fail()
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
+
             ((Action)(() => (element.Object).Should().NotMatch(_ => true))).Should().Throw<XunitException>();
         }
 
@@ -164,6 +176,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void HaveProperty_Ok<T>(string name, T value)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.GetProperty<T>(It.Is<string>(n => n == name))).Returns(value);
             element.Setup(e => e.GetProperty<T>(It.Is<string>(n => n != name))).Returns(default(T));
 
@@ -177,6 +190,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void HaveProperty_Fail<T>(string name, T value, T value2)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.GetProperty<T>(It.Is<string>(n => n == name))).Returns(value);
             element.Setup(e => e.GetProperty<T>(It.Is<string>(n => n != name))).Returns(default(T));
 
@@ -190,6 +204,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void NotHaveProperty_Ok<T>(string name, T value, T value2)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.GetProperty<T>(It.Is<string>(n => n == name))).Returns(value);
             element.Setup(e => e.GetProperty<T>(It.Is<string>(n => n != name))).Returns(default(T));
 
@@ -203,6 +218,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void NotHaveProperty_Fail<T>(string name, T value)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.GetProperty<T>(It.Is<string>(n => n == name))).Returns(value);
             element.Setup(e => e.GetProperty<T>(It.Is<string>(n => n != name))).Returns(default(T));
 
@@ -218,6 +234,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void Element_GetAttribute_Ok<T>(string name, string value, T expectedValue)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.GetAttribute(It.Is<string>(n => n == name))).Returns(value);
             element.Setup(e => e.GetAttribute(It.Is<string>(n => n != name))).Returns((string)null);
 
@@ -229,22 +246,10 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
 
         [Theory]
         [InlineData("property1", "abcd", "abcd")]
-        [InlineData("property2", "123", 123)]
-        [InlineData("property3", "true", true)]
-        public void HaveAttribute_Ok<T>(string name, string svalue, T value)
-        {
-            var element = new Mock<IElement>();
-            element.Setup(e => e.GetAttribute(It.Is<string>(n => n == name))).Returns(svalue);
-            element.Setup(e => e.GetAttribute(It.Is<string>(n => n != name))).Returns((string)null);
-
-            ((Action)(() => (element.Object).Should().HaveAttribute<T>(name, value))).Should().NotThrow();
-        }
-
-        [Theory]
-        [InlineData("property1", "abcd", "abcd")]
         public void HaveAttribute1_Ok(string name, string svalue, string value)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.GetAttribute(It.Is<string>(n => n == name))).Returns(svalue);
             element.Setup(e => e.GetAttribute(It.Is<string>(n => n != name))).Returns((string)null);
 
@@ -256,6 +261,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void HaveAttribute1_Fail(string name, string svalue, string value)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.GetAttribute(It.Is<string>(n => n == name))).Returns(svalue);
             element.Setup(e => e.GetAttribute(It.Is<string>(n => n != name))).Returns((string)null);
 
@@ -267,6 +273,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void NotHaveAttribute1_Ok(string name, string svalue, string value)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.GetAttribute(It.Is<string>(n => n == name))).Returns(svalue);
             element.Setup(e => e.GetAttribute(It.Is<string>(n => n != name))).Returns((string)null);
 
@@ -278,30 +285,18 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void NotHaveAttribute1_Fail(string name, string svalue, string value)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.GetAttribute(It.Is<string>(n => n == name))).Returns(svalue);
             element.Setup(e => e.GetAttribute(It.Is<string>(n => n != name))).Returns((string)null);
 
             ((Action)(() => (element.Object).Should().NotHaveAttribute(name, value))).Should().Throw<XunitException>();
         }
 
-        [Theory]
-        [InlineData("property1", "abcd", "abc")]
-        [InlineData("property2", "123", 124)]
-        [InlineData("property2", "true", 124)]
-        [InlineData("property3", "true", false)]
-        public void HaveAttribute_Fail<T>(string name, string svalue, T value)
-        {
-            var element = new Mock<IElement>();
-            element.Setup(e => e.GetAttribute(It.Is<string>(n => n == name))).Returns(svalue);
-            element.Setup(e => e.GetAttribute(It.Is<string>(n => n != name))).Returns((string)null);
-
-            ((Action)(() => (element.Object).Should().HaveAttribute<T>(name, value))).Should().Throw<XunitException>();
-        }
-
         [Fact]
         public void BeHtmlTag_Ok()
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.TagName).Returns("body");
             ((Action)(() => (element.Object).Should().BeHtmlTag("body"))).Should().NotThrow();
         }
@@ -312,6 +307,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void BeHtmlTag_Fail(string tag)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.TagName).Returns(tag);
             ((Action)(() => (element.Object).Should().BeHtmlTag("head"))).Should().Throw<XunitException>();
         }
@@ -325,6 +321,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void ContainText_Ok(string text, string substring, StringComparison type)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.InnerText).Returns(text);
             ((Action)(() => (element.Object).Should().ContainText(substring, type))).Should().NotThrow();
         }
@@ -337,6 +334,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void ContainText_Fail(string text, string substring, StringComparison type)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.InnerText).Returns(text);
             ((Action)(() => (element.Object).Should().ContainText(substring, type))).Should().Throw<XunitException>();
         }
@@ -350,6 +348,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void ContainHTML_Ok(string text, string substring, StringComparison type)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.InnerHTML).Returns(text);
             ((Action)(() => (element.Object).Should().ContainHTML(substring, type))).Should().NotThrow();
         }
@@ -362,6 +361,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void ContainHTML_Fail(string text, string substring, StringComparison type)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.InnerHTML).Returns(text);
             ((Action)(() => (element.Object).Should().ContainHTML(substring, type))).Should().Throw<XunitException>();
         }
@@ -375,6 +375,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void HaveClass_Ok(string text, string substring)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.Class).Returns(text);
             ((Action)(() => (element.Object).Should().HaveClass(substring))).Should().NotThrow();
         }
@@ -387,6 +388,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void HaveClass_Fail(string text, string substring)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.Class).Returns(text);
             ((Action)(() => (element.Object).Should().HaveClass(substring))).Should().Throw<XunitException>();
         }
@@ -401,6 +403,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void NotHaveClass_Ok(string text, string substring)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.Class).Returns(text);
             ((Action)(() => (element.Object).Should().NotHaveClass(substring))).Should().NotThrow();
         }
@@ -414,6 +417,7 @@ namespace Gehtsoft.Webview2.FluentAssertions.Test
         public void NotHaveClass_Fail(string text, string substring)
         {
             var element = new Mock<IElement>();
+            element.Setup(e => e.Exists).Returns(true);
             element.Setup(e => e.Class).Returns(text);
             ((Action)(() => (element.Object).Should().NotHaveClass(substring))).Should().Throw<XunitException>();
         }

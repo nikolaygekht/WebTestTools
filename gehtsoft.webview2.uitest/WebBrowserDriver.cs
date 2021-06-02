@@ -12,117 +12,34 @@ using Microsoft.Web.WebView2.WinForms;
 
 namespace Gehtsoft.Webview2.Uitest
 {
-
     /// <summary>
-    /// <para>The class to create and use in-process web browser. </para>
-    /// <para>See also <see cref="WebBrowserDriverExtensions"/> for extension methods.</para>
+    /// <para>The class to create and use in-process web browser.</para>
     /// </summary>
     public sealed class WebBrowserDriver : IDisposable
     {
         /// <summary>
-        /// Controller to access element by its name
+        /// The access point to the elements by the element name
         /// </summary>
-        public class ByNameController
-        {
-            private readonly WebBrowserDriver mDriver;
-
-            internal ByNameController(WebBrowserDriver driver)
-            {
-                mDriver = driver;
-            }
-
-            /// <summary>
-            /// Gets the specified element by its name and index among the elements with the same name
-            /// </summary>
-            /// <param name="name"></param>
-            /// <param name="index"></param>
-            /// <returns></returns>
-            public Element this[string name, int index = 0] => new Element(mDriver, Element.LocatorTypes.Name, name, index);
-        }
+        public ElementByNameAccessor ByName { get; }
 
         /// <summary>
-        /// Controller to access element by its class
+        /// The access point to the elements by element class
         /// </summary>
-        public class ByClassController
-        {
-            private readonly WebBrowserDriver mDriver;
-
-            internal ByClassController(WebBrowserDriver driver)
-            {
-                mDriver = driver;
-            }
-
-            /// <summary>
-            /// Gets the specified element by its class and index among the elements that belong to the same class
-            /// </summary>
-            /// <param name="name"></param>
-            /// <param name="index"></param>
-            public Element this[string name, int index = 0] => new Element(mDriver, Element.LocatorTypes.Class, name, index);
-        }
+        public ElementByClassAccessor ByClass { get; }
 
         /// <summary>
-        /// Controller to access element by its identifier
+        /// The access point to the elements by element identifier
         /// </summary>
-        public class ByIdController
-        {
-            private readonly WebBrowserDriver mDriver;
-
-            internal ByIdController(WebBrowserDriver driver)
-            {
-                mDriver = driver;
-            }
-
-            /// <summary>
-            /// Gets the specified element by its unique identifier
-            /// </summary>
-            /// <param name="name"></param>
-            public Element this[string name] => new Element(mDriver, Element.LocatorTypes.Id, name);
-        }
+        public ElementByIdAccessor ById { get; }
 
         /// <summary>
-        /// Controller to access element by XPath
+        /// The access point to the elements by XPath expression
         /// </summary>
-        public class ByXPathController
-        {
-            private readonly WebBrowserDriver mDriver;
-
-            internal ByXPathController(WebBrowserDriver driver)
-            {
-                mDriver = driver;
-            }
-
-            /// <summary>
-            /// XPath that access to the element
-            /// </summary>
-            /// <param name="xpath"></param>
-            public Element this[string xpath] => new Element(mDriver, Element.LocatorTypes.XPath, xpath);
-        }
+        public ElementByXPathAccessor ByXPath { get; }
 
         /// <summary>
-        /// The access point to the elements by their name
+        /// Gets the current location (URL)
         /// </summary>
-        public ByNameController ByName { get; }
-
-        /// <summary>
-        /// The access point to the elements by their class
-        /// </summary>
-        public ByClassController ByClass { get; }
-
-        /// <summary>
-        /// The access point to the elements by their identifier
-        /// </summary>
-        public ByIdController ById { get; }
-
-        /// <summary>
-        /// The access point to the elements by XPath
-        /// </summary>
-        public ByXPathController ByXPath { get; }
-
-        /// <summary>
-        /// Return the current location (URL)
-        /// </summary>
-        /// <param name="driver"></param>
-        /// <returns></returns>
         public string Location => ExecuteScript<string>("document.location.href");
 
         /// <summary>
@@ -130,10 +47,10 @@ namespace Gehtsoft.Webview2.Uitest
         /// </summary>
         public WebBrowserDriver()
         {
-            ByName = new ByNameController(this);
-            ByClass = new ByClassController(this);
-            ById = new ByIdController(this);
-            ByXPath = new ByXPathController(this);
+            ByName = new ElementByNameAccessor(this);
+            ByClass = new ElementByClassAccessor(this);
+            ById = new ElementByIdAccessor(this);
+            ByXPath = new ElementByXPathAccessor(this);
         }
 
         private WebBrowserForm mForm = null;
@@ -214,7 +131,7 @@ namespace Gehtsoft.Webview2.Uitest
         /// <summary>
         /// Sets the browser to the specified HTML content and  until initialization is finished.
         /// </summary>
-        /// <param name="url"></param>
+        /// <param name="content"></param>
         public void SetContent(string content)
         {
             Perform(() => mForm.SetContent(content));
@@ -364,7 +281,12 @@ namespace Gehtsoft.Webview2.Uitest
             Perform(() => WebView.CoreWebView2.CookieManager.DeleteCookies(name, uri));
         }
 
-        public XPath XPath(string expression) => new XPath(this, expression);
+        /// <summary>
+        /// Returns XPath object for the expression specified.
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public IXPath XPath(string expression) => new XPath(this, expression);
 
         /// <summary>
         /// Form thread.
@@ -373,7 +295,7 @@ namespace Gehtsoft.Webview2.Uitest
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(mForm = new WebBrowserForm());
+            Application.Run(mForm = new WebBrowserForm() { Visible = true });
         }
     }
 }

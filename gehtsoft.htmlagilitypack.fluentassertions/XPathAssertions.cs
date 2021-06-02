@@ -8,16 +8,31 @@ using HtmlAgilityPack;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
+    /// <summary>
+    /// Assertions for XPath object
+    /// </summary>
     public class XPathAssertions : ReferenceTypeAssertions<XPath, XPathAssertions>
     {
+        /// <summary>
+        /// The link to the first node in the collection returned by the XPath
+        /// </summary>
         public HtmlNode Node => Subject.Count > 0 ? Subject[0] : null;
 
-        public XPathAssertions(XPath subject) : base(subject)
+        internal XPathAssertions(XPath subject) : base(subject)
         {
         }
 
+        /// <summary>
+        /// Subject identifier.
+        /// </summary>
         protected override string Identifier => "xpath";
 
+        /// <summary>
+        /// Asserts that the XPath returns at least one element.
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<XPathAssertions> Exist(string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -28,6 +43,12 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<XPathAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the XPath does not return any elements.
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<XPathAssertions> NotExist(string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -38,6 +59,13 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<XPathAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that XPath returns the specified number of the elements.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<XPathAssertions> HaveCount(int value, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -48,6 +76,13 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<XPathAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the XPath results contains a node that matches the predicate specified.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<XPathAssertions> ContainNodeMatching(Expression<Func<HtmlNode, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -65,6 +100,13 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<XPathAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that all nodes returned by XPath matches the predicate.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<XPathAssertions> ContainAllNodesMatching(Expression<Func<HtmlNode, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -82,6 +124,13 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<XPathAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that all no nodes returned by XPath matches the predicate.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<XPathAssertions> ContainNoNodesMatching(Expression<Func<HtmlNode, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion

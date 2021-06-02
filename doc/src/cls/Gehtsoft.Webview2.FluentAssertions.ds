@@ -1,0 +1,6 @@
+﻿@group
+    @title=Namespace Gehtsoft.Webview2.FluentAssertions
+    @key=Gehtsoft.Webview2.FluentAssertions
+    @ingroup=main
+    @brief=The namespace is designed to validate `WebView2`-based UI scenarios using Fluent Assertions
+@end

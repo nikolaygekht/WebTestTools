@@ -7,14 +7,26 @@ using Gehtsoft.Webview2.Uitest;
 
 namespace Gehtsoft.Webview2.FluentAssertions
 {
+    /// <summary>
+    /// The fluent assertions for web driver.
+    /// </summary>
     public class WebBrowserDriverAssertions : ReferenceTypeAssertions<WebBrowserDriver, WebBrowserDriverAssertions>
     {
+        /// <summary>
+        /// The element identifier.
+        /// </summary>
         protected override string Identifier => "driver";
 
-        public WebBrowserDriverAssertions(WebBrowserDriver subject) : base(subject)
+        internal WebBrowserDriverAssertions(WebBrowserDriver subject) : base(subject)
         {
         }
 
+        /// <summary>
+        /// Asserts that the driver has successfully initialized.
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<WebBrowserDriverAssertions> BeInitialized(string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -25,6 +37,14 @@ namespace Gehtsoft.Webview2.FluentAssertions
             return new AndConstraint<WebBrowserDriverAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the current page has the cookie specified.
+        /// </summary>
+        /// <param name="cookieName"></param>
+        /// <param name="cookieUri"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<WebBrowserDriverAssertions> HaveCookie(string cookieName, string cookieUri, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -39,6 +59,15 @@ namespace Gehtsoft.Webview2.FluentAssertions
             return new AndConstraint<WebBrowserDriverAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the current page has the cookie with the value specified.
+        /// </summary>
+        /// <param name="cookieName"></param>
+        /// <param name="value"></param>
+        /// <param name="cookieUri"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<WebBrowserDriverAssertions> HaveCookie(string cookieName, string value, string cookieUri, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -53,6 +82,14 @@ namespace Gehtsoft.Webview2.FluentAssertions
             return new AndConstraint<WebBrowserDriverAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the current page has no cookie with the name specified.
+        /// </summary>
+        /// <param name="cookieName"></param>
+        /// <param name="cookieUri"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<WebBrowserDriverAssertions> HaveNoCookie(string cookieName, string cookieUri, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -67,6 +104,15 @@ namespace Gehtsoft.Webview2.FluentAssertions
             return new AndConstraint<WebBrowserDriverAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the current page has no cookie with the value specified.
+        /// </summary>
+        /// <param name="cookieName"></param>
+        /// <param name="value"></param>
+        /// <param name="cookieUri"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<WebBrowserDriverAssertions> HaveNoCookie(string cookieName, string value, string cookieUri, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion

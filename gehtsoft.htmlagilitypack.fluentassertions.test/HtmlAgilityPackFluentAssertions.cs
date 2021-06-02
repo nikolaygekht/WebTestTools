@@ -152,28 +152,28 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions.Test
         [Fact]
         public void ContainText_Ok()
         {
-            TestPage.Document.Select("/html/body/noscript").Node.Should().ContainsText("Java");
+            TestPage.Document.Select("/html/body/noscript").Node.Should().ContainText("Java");
         }
 
         [Fact]
         public void ContainText_Fail()
         {
             ((Action)(() =>
-            TestPage.Document.Select("/html/body/noscript").Node.Should().ContainsText("Jaba")))
+            TestPage.Document.Select("/html/body/noscript").Node.Should().ContainText("Jaba")))
             .Should().Throw<XunitException>();
         }
 
         [Fact]
         public void ContainHtml_Ok()
         {
-            TestPage.Document.Select("/html/body/noscript").Node.Should().ContainsHtml("<p>JavaScript");
+            TestPage.Document.Select("/html/body/noscript").Node.Should().ContainHtml("<p>JavaScript");
         }
 
         [Fact]
         public void ContainHtml_Fail()
         {
             ((Action)(() =>
-            TestPage.Document.Select("/html/body/noscript").Node.Should().ContainsHtml("<b>JavaScript")))
+            TestPage.Document.Select("/html/body/noscript").Node.Should().ContainHtml("<b>JavaScript")))
             .Should().Throw<XunitException>();
         }
 

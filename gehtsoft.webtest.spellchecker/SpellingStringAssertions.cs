@@ -5,8 +5,20 @@ using FluentAssertions.Primitives;
 
 namespace Gehtsoft.Webtest.Spellchecker
 {
+    /// <summary>
+    /// The extension for FluentAssertions's string assertions to validate spelling.
+    /// </summary>
     public static class SpellingStringExtensions
     {
+        /// <summary>
+        /// Asserts that the string is spelled correctly.
+        /// </summary>
+        /// <param name="assertions"></param>
+        /// <param name="dictionary"></param>
+        /// <param name="exemptions"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public static AndConstraint<StringAssertions> BeSpelledCorrectly(this StringAssertions assertions, string dictionary = "en_US", string exemptions = null, string because = null, params object[] becauseParameters)
         {
             string[] exemptionsList = null;

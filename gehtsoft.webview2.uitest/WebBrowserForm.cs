@@ -79,9 +79,14 @@ namespace Gehtsoft.Webview2.Uitest
             NavigationCompleted = false;
         }
 
+        /// <summary>
+        /// Returns the list of the cookies.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         public async Task<IReadOnlyList<Cookie>> GetCookies(string uri)
         {
-            var cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync(uri);
+            var cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync(uri).ConfigureAwait(false);
             List<Cookie> result = new();
             foreach (var cookie in cookies)
             {

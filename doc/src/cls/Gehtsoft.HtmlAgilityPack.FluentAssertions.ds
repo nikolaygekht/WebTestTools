@@ -1,0 +1,6 @@
+﻿@group
+    @title=Namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
+    @key=Gehtsoft.HtmlAgilityPack.FluentAssertions
+    @ingroup=main
+    @brief=The namespace is designed to validate HtmlElements and JsonElements using FluentAssertions
+@end

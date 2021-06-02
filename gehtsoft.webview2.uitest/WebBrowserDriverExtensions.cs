@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Gehtsoft.Webview2.Uitest
 {
+    /// <summary>
+    /// The extension methods for web browser driver.
+    /// </summary>
     public static class WebBrowserDriverExtensions
     {
         /// <summary>

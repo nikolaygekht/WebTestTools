@@ -8,16 +8,31 @@ using HtmlAgilityPack;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
+    /// <summary>
+    /// Assertions to be applied on HtmlNode class.
+    /// </summary>
     public class HtmlNodeAssertions : ReferenceTypeAssertions<HtmlNode, HtmlNodeAssertions>
     {
+        /// <summary>
+        /// The reference to the node to which the assertion is applied.
+        /// </summary>
         public HtmlNode Node => Subject;
 
-        public HtmlNodeAssertions(HtmlNode subject) : base(subject)
+        internal HtmlNodeAssertions(HtmlNode subject) : base(subject)
         {
         }
 
+        /// <summary>
+        /// The element identifier
+        /// </summary>
         protected override string Identifier => "node";
 
+        /// <summary>
+        /// Asserts that the node exists.
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> Exist(string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -27,6 +42,13 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
                 .FailWith("Expected {context:node} to exist but it doesn't");
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
+
+        /// <summary>
+        /// Asserts that the node does not exist
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> NotExist(string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -37,6 +59,12 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the node is an element
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> BeElement(string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -50,7 +78,14 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
-        public AndConstraint<HtmlNodeAssertions> IsElement(string tag, string because = null, params object[] becauseParameters)
+        /// <summary>
+        /// Asserts that the note is a specified HTML element.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<HtmlNodeAssertions> BeElement(string tag, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
@@ -66,7 +101,13 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
-        public AndConstraint<HtmlNodeAssertions> IsText(string because = null, params object[] becauseParameters)
+        /// <summary>
+        /// Asserts that the node is a text.
+        /// </summary>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<HtmlNodeAssertions> BeText(string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
@@ -76,7 +117,15 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
-        public AndConstraint<HtmlNodeAssertions> ContainsText(string text, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
+        /// <summary>
+        /// Asserts that the node contains text.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="comparison"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<HtmlNodeAssertions> ContainText(string text, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
@@ -93,7 +142,15 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
-        public AndConstraint<HtmlNodeAssertions> ContainsHtml(string text, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
+        /// <summary>
+        /// Asserts that the node contains an HTML fragment
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="comparison"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<HtmlNodeAssertions> ContainHtml(string text, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseParameters)
@@ -110,6 +167,15 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
+        /// <summary>
+        /// Assert that the node has an attribute.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value">Specify the expected attribute value or `null` to check presence of the attribute</param>
+        /// <param name="comparison"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> HaveAttribute(string name, string value = null, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -130,6 +196,15 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the node has no attribute
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value">The value that attribute shall not have or `null` to check attribute absence</param>
+        /// <param name="comparison"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> HaveNoAttribute(string name, string value = null, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -146,6 +221,14 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the attribute matches the predicate specified
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="predicate"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> HaveAttributeMatching(string name, Expression<Func<HtmlAttribute, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -166,6 +249,13 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the node matches the predicate specified.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         new public AndConstraint<HtmlNodeAssertions> Match(Expression<Func<HtmlNode, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -176,6 +266,13 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the node does not match the predicate specified.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> NotMatch(Expression<Func<HtmlNode, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion

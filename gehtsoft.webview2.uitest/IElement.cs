@@ -1,5 +1,8 @@
 ﻿namespace Gehtsoft.Webview2.Uitest
 {
+    /// <summary>
+    /// The interface to an element on a web page
+    /// </summary>
     public interface IElement
     {
         /// <summary>

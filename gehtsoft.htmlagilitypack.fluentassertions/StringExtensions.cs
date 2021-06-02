@@ -10,8 +10,18 @@ using FluentAssertions.Primitives;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
+    /// <summary>
+    /// Extensions for FluentAsserions' string assertion to check that the value is a json.
+    /// </summary>
     public static class StringExtensions
     {
+        /// <summary>
+        /// Checks that the string value can be parsed as a json value.
+        /// </summary>
+        /// <param name="assertions"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public static AndConstraint<StringAssertions> BeJson(this StringAssertions assertions, string because = null, params object[] becauseParameters)
         {
             Execute.Assertion
@@ -36,43 +46,11 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
                 return new AndConstraint<StringAssertions>(assertions);
         }
 
+        /// <summary>
+        /// Parses the string and returns it as a json
+        /// </summary>
+        /// <param name="jsonText"></param>
+        /// <returns></returns>
         public static JsonElement AsJson(this string jsonText) => JsonSerializer.Deserialize<JsonElement>(jsonText ?? "null");
-
-        public static bool EqualsTo(this JsonElement element, object value)
-        {
-            if (element.ValueKind == JsonValueKind.Null)
-                return value == null;
-
-            if (element.ValueKind == JsonValueKind.True)
-                return value is bool b && b;
-
-            if (element.ValueKind == JsonValueKind.False)
-                return value is bool b && !b;
-
-            if (element.ValueKind == JsonValueKind.String)
-                return value is string s && s == element.GetString();
-
-            if (element.ValueKind == JsonValueKind.Number)
-            {
-                if (value is Int32 i32)
-                    return i32 == element.GetInt32();
-
-                if (value is Int16 i16)
-                    return i16 == element.GetInt16();
-
-                if (value is Int64 i64)
-                    return i64 == element.GetInt64();
-
-                if (value is Decimal dec)
-                    return dec == element.GetDecimal();
-
-                if (value is double dbl)
-                    return dbl == element.GetDouble();
-
-                return false;
-            }
-
-            return false;
-        }
     }
 }

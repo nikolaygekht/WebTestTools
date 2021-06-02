@@ -6,13 +6,9 @@ using System.Text;
 namespace Gehtsoft.Webview2.Uitest
 {
     /// <summary>
-    /// <para>The element specification</para>
-    /// <para>The class is used to refer an element in <see cref="WebBrowserDriverExtensions"/> methods.</para>
-    /// <para>You can create an instance of this element using <see cref="WebBrowserDriverExtensions.ElementById(WebBrowserDriver, string)"/>,
-    /// <see cref="WebBrowserDriverExtensions.ElementByName(WebBrowserDriver, string, int)"/>, and
-    /// <see cref="<see cref="WebBrowserDriverExtensions.ElementByPath(WebBrowserDriver, string)"/></para>
+    /// <para>The element on a web page</para>
     /// </summary>
-    public sealed class Element : IElement, IFormattable
+    internal sealed class Element : IElement, IFormattable
     {
         /// <summary>
         /// Locator types
@@ -148,14 +144,38 @@ namespace Gehtsoft.Webview2.Uitest
             }
         }
 
+        /// <summary>
+        /// Gets attribute value as a string
+        /// </summary>
+        /// <param name="attributeName"></param>
+        /// <returns></returns>
         public string GetAttribute(string attributeName) => Driver.ExecuteScript<string>($"{CreateAccessor()}.getAttribute('{attributeName}')");
 
+        /// <summary>
+        /// Gets JavaScript property of the specified type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
         public T GetProperty<T>(string propertyName) => Driver.ExecuteScript<T>($"{CreateAccessor()}.{propertyName}");
 
+        /// <summary>
+        /// Clicks the element
+        /// </summary>
         public void Click() => Driver.ExecuteScript(CreateAccessor() + ".click()");
 
+        /// <summary>Returns a string that represents the current object.</summary>
+        /// <returns>A string that represents the current object.</returns>
         public override string ToString() => ToString(null, null);
 
+        /// <summary>Formats the value of the current instance using the specified format.</summary>
+        /// <param name="format">The format to use.
+        ///  -or-
+        ///  A null reference (<see langword="Nothing" /> in Visual Basic) to use the default format defined for the type of the <see cref="IFormattable" /> implementation.</param>
+        /// <param name="formatProvider">The provider to use to format the value.
+        ///  -or-
+        ///  A null reference (<see langword="Nothing" /> in Visual Basic) to obtain the numeric format information from the current locale setting of the operating system.</param>
+        /// <returns>The value of the current instance in the specified format.</returns>
         public string ToString(string format, IFormatProvider formatProvider)
         {
             StringBuilder sb = new StringBuilder();

@@ -11,14 +11,17 @@ using WeCantSpell.Hunspell;
 
 namespace Gehtsoft.Webtest.Spellchecker
 {
-    public class Spellchecker
+    /// <summary>
+    /// Spell checker
+    /// </summary>
+    public sealed class Spellchecker
     {
         private readonly WordList mDictionary;
         private readonly HashSet<string> mExemptions = null;
 
-        public Spellchecker(string language = "en_US", IEnumerable<string> exemptions = null)
+        internal Spellchecker(Func<string, string> locator, string language = "en_US", IEnumerable<string> exemptions = null)
         {
-            string f = EnsureDictionary(language);
+            string f = EnsureDictionary(locator, language);
             mDictionary = WordList.CreateFromFiles(f);
 
             mExemptions = new HashSet<string>();
@@ -27,6 +30,12 @@ namespace Gehtsoft.Webtest.Spellchecker
                     mExemptions.Add(s.ToLower());
         }
 
+        /// <summary>
+        /// <para>Spells one word</para>
+        /// <para>The method returns `true` if the word is spelled correctly or is in the exception list.</para>
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
         public bool SpellOne(string word)
         {
             if (mExemptions.Contains(word.ToLower()))
@@ -37,6 +46,13 @@ namespace Gehtsoft.Webtest.Spellchecker
 
         private readonly static Regex gWordParser = new Regex(@"[\w']+");
 
+        /// <summary>
+        /// <para>Spells the text.</para>
+        /// <para>The method returns the list of the words that aren't spelled correctly.</para>
+        /// <para>If the text is correct, a `null` value will be returned.</para>
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public List<string> SpellMany(string text)
         {
             Match m;
@@ -75,22 +91,22 @@ namespace Gehtsoft.Webtest.Spellchecker
             return true;
         }
 
-        private void EnsureFile(string folder, string file, string source)
+        private void EnsureFile(string folder, string file, Func<string> locator)
         {
             string ff = Path.Combine(folder, file);
             if (!File.Exists(ff))
             {
                 using WebClient wc = new WebClient();
-                wc.DownloadFile($"{source}/{file}", ff);
+                wc.DownloadFile($"{locator()}", ff);
             }
         }
 
-        private string EnsureDictionary(string language = "en_US")
+        private string EnsureDictionary(Func<string, string> locator, string language = "en_US")
         {
             FileInfo fi = new FileInfo(typeof(Spellchecker).Assembly.Location);
             string folder = fi.Directory.FullName;
-            EnsureFile(folder, $"{language}.dic", "http://docs.gehtsoftusa.com/bin/dic");
-            EnsureFile(folder, $"{language}.aff", "http://docs.gehtsoftusa.com/bin/dic");
+            EnsureFile(folder, $"{language}.dic", () => locator(language) + ".dic");
+            EnsureFile(folder, $"{language}.aff", () => locator(language) + ".aff");
             return Path.Combine(folder, $"{language}.dic");
         }
     }
