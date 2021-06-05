@@ -10,31 +10,73 @@ using Gehtsoft.Webview2.Uitest;
 using Gehtsoft.Webview2.FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
+using System.IO;
 
 namespace webviewtest
 {
+    public sealed class WebDriverFixture : IDisposable
+    {
+        public WebBrowserDriver Driver { get; }
+
+        public WebDriverFixture() : this("Cache")
+        {
+        }
+
+        private WebDriverFixture(string cache)
+        {
+            Driver = new WebBrowserDriver();
+            Driver.CacheFolder = Path.Combine(new FileInfo(this.GetType().Assembly.Location).DirectoryName, cache);
+            Driver.EnsureCacheFolder(true);
+            Driver.Start();
+            Thread.Sleep(10);
+        }
+
+        public static WebDriverFixture Create(string cache) => new(cache);
+
+        public void Dispose()
+        {
+            Driver.Dispose();
+        }
+    }
+
+    [CollectionDefinition(nameof(WebDriverFixture), DisableParallelization = true)]
+    public class WebDriverFixtureCollection : ICollectionFixture<WebDriverFixture> { }
+
+    [Collection(nameof(WebDriverFixture))]
     public class Test
     {
-        [Fact]
-        public void MinimumTest()
+        private readonly WebDriverFixture mDriver;
+
+        public Test(WebDriverFixture fixture)
         {
-            using var f = new WebBrowserDriver();
-            f.Start();
-            f.Should().BeInitialized();
+            mDriver = fixture;
+        }
+
+        [Theory]
+        [InlineData("gehtsoft", "https://gehtsoftusa.com")]
+        [InlineData("microsoft", "https://www.microsoft.com")]
+        public void TestWithScript(string keyword, string url)
+        {
+            var f = mDriver.Driver;
             f.Navigate("https://www.google.com");
-            f.ByName["q"].Value = "gehtsoft";
+            f.Reload();
+            f.WaitFor(d => d.DocumentState == "complete", 10);
+
+            f.ByName["q"].Value = keyword;
             f.ByName["btnK"].Click();
-            f.WaitFor(d => d.Location.StartsWith("https://www.google.com/search"), 5);
-            f.XPath("count(/html/body//cite[text()='https://gehtsoftusa.com']) > 0").Should().BeTrue();
+            f.WaitFor(d => d.Location.StartsWith("https://www.google.com/search"), 15);
+            f.WaitFor(d => d.DocumentState == "complete", 10);
+
+            f.XPath("count(/html/body//cite[text()='"+ url + "']) > 0").Should().BeTrue();
         }
 
         [Fact]
         public void CurrentTest()
         {
-            using var f = new WebBrowserDriver();
-            f.Start();
-            f.Should().BeInitialized();
+            var f = mDriver.Driver;
+
             f.Navigate("https://www.google.com");
+            f.Reload();
 
             f.ByName["q"]
                 .Should().Exist()

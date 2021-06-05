@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
@@ -41,7 +43,22 @@ namespace Gehtsoft.Webview2.Uitest
         public WebBrowserForm()
         {
             InitializeComponent();
-            webViewControl.EnsureCoreWebView2Async();
+        }
+
+        /// <summary>
+        /// Initialize the control
+        /// </summary>
+        /// <param name="cacheFolder"></param>
+        /// <returns></returns>
+        public async Task InitializeWebControlAsync(string cacheFolder)
+        {
+            if (!string.IsNullOrEmpty(cacheFolder))
+            {
+                var env = await CoreWebView2Environment.CreateAsync(null, cacheFolder);
+                await webViewControl.EnsureCoreWebView2Async(env);
+            }
+            else
+                await webViewControl.EnsureCoreWebView2Async();
         }
 
         /// <summary>

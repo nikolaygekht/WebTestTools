@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -60,6 +61,16 @@ namespace Gehtsoft.Webview2.Uitest
         /// The browser control
         /// </summary>
         public WebView2 WebView => mForm.WebView;
+
+        /// <summary>
+        /// The form control.
+        /// </summary>
+        public Form Form => mForm;
+
+        /// <summary>
+        /// Returns complete HTML document content
+        /// </summary>
+        public string Content => ExecuteScript<string>("document.documentElement.outerHTML");
 
         /// <summary>
         /// The method perform the action specified in the browser's thread.
@@ -124,6 +135,18 @@ namespace Gehtsoft.Webview2.Uitest
         public void Navigate(string url)
         {
             Perform(() => mForm.NavigateTo(url));
+            Thread.Sleep(5);
+            while (!mForm.NavigationCompleted)
+                Thread.Yield();
+        }
+
+        /// <summary>
+        /// Forces page reload
+        /// </summary>
+        public void Reload()
+        {
+            Perform(() => mForm.WebView.Reload());
+            Thread.Sleep(100);
             while (!mForm.NavigationCompleted)
                 Thread.Yield();
         }
@@ -295,7 +318,42 @@ namespace Gehtsoft.Webview2.Uitest
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(mForm = new WebBrowserForm() { Visible = true });
+            mForm = new WebBrowserForm() { Visible = true };
+            _ = mForm.InitializeWebControlAsync(CacheFolder);
+            Application.Run(mForm);
         }
+
+#pragma warning disable CA1822 // Mark members as static
+        /// <summary>
+        /// Puts execution of current test on pause.
+        /// </summary>
+        /// <param name="message"></param>
+        public void Pause(string message = "We are on pause") => MessageBox.Show(message, "Web Driver", MessageBoxButtons.OK);
+#pragma warning restore CA1822 // Mark members as static
+
+        /// <summary>
+        /// The location of the cache folder
+        /// </summary>
+        public string CacheFolder { get; set; }
+
+        /// <summary>
+        /// Validates and optionally clears the cache folder
+        /// </summary>
+        /// <param name="clear"></param>
+        public void EnsureCacheFolder(bool clear = false)
+        {
+            if (!string.IsNullOrEmpty(CacheFolder))
+            {
+                if (clear && Directory.Exists(CacheFolder))
+                    Directory.Delete(CacheFolder, true);
+                if (!Directory.Exists(CacheFolder))
+                    Directory.CreateDirectory(CacheFolder);
+            }
+        }
+
+        /// <summary>
+        /// Returns document read state
+        /// </summary>
+        public string DocumentState => ExecuteScript<string>("document.readyState");
     }
 }
