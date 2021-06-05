@@ -240,13 +240,35 @@ namespace webviewtest
         }
 
         /// <summary>
+        /// Returns the document state
+        /// </summary>
+        public string DocumentState => ExecuteScript<string>("document.readyState");
+
+        /// <summary>
+        /// Returns complete HTML document content
+        /// </summary>
+        public string Location => ExecuteScript<string>("document.location.href");
+
+        /// <summary>
+        /// Returns complete HTML document content
+        /// </summary>
+        public string Content => ExecuteScript<string>("document.documentElement.outerHTML");
+
+        /// <summary>
+        /// The location of the cache folder
+        /// </summary>
+        public string CacheFolder { get; set; }
+
+        /// <summary>
         /// Form thread.
         /// </summary>
         private void Runner()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(mForm = new WebBrowserForm());
+            mForm = new WebBrowserForm();
+            _ = mForm.InitializeWebControlAsync(CacheFolder);
+            Application.Run(mForm);
         }
     }
 }

@@ -13,8 +13,8 @@ using Microsoft.Web.WebView2.WinForms;
 namespace webviewtest
 {
     /// <summary>
-    /// A form with web browser. 
-    /// 
+    /// A form with web browser.
+    ///
     /// Don't create the form directly, use <see cref="WebBrowserDriver"/> class instead.
     /// </summary>
     public partial class WebBrowserForm : Form
@@ -40,7 +40,17 @@ namespace webviewtest
         public WebBrowserForm()
         {
             InitializeComponent();
-            webViewControl.EnsureCoreWebView2Async();
+        }
+
+        public async Task InitializeWebControlAsync(string cacheFolder)
+        {
+            if (!string.IsNullOrEmpty(cacheFolder))
+            {
+                var env = await CoreWebView2Environment.CreateAsync(null, cacheFolder);
+                await webViewControl.EnsureCoreWebView2Async(env);
+            }
+            else
+                await webViewControl.EnsureCoreWebView2Async();
         }
 
         /// <summary>
@@ -51,7 +61,6 @@ namespace webviewtest
         {
             NavigationCompleted = false;
             webViewControl.CoreWebView2.Navigate(url);
-
         }
 
         /// <summary>

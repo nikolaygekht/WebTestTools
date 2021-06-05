@@ -37,9 +37,10 @@ namespace webviewtest
             // 
             this.webViewControl.CreationProperties = null;
             this.webViewControl.DefaultBackgroundColor = System.Drawing.Color.White;
-            this.webViewControl.Location = new System.Drawing.Point(13, 13);
+            this.webViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webViewControl.Location = new System.Drawing.Point(0, 0);
             this.webViewControl.Name = "webViewControl";
-            this.webViewControl.Size = new System.Drawing.Size(775, 425);
+            this.webViewControl.Size = new System.Drawing.Size(1285, 640);
             this.webViewControl.TabIndex = 0;
             this.webViewControl.ZoomFactor = 1D;
             this.webViewControl.CoreWebView2InitializationCompleted += new System.EventHandler<Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs>(this.webViewControl_CoreWebView2InitializationCompleted);
@@ -50,7 +51,7 @@ namespace webviewtest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1285, 640);
             this.Controls.Add(this.webViewControl);
             this.Name = "WebBrowserForm";
             this.Text = "Web Browser";
