@@ -2,6 +2,7 @@
 <nuget xmlns="http://www.gehtsoft.com/build/nuget">
  <!-- versions. the FIRST version is the current -->
  <versions>
+  <version id="1.0.2">Remove not needed dependencies</version>
   <version id="1.0.1">The first version</version>
  </versions>
  <properties>

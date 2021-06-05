@@ -2,11 +2,11 @@
 .git/
 .vs/
 .nuget/
-.nuspec/
 bin/
 obj/
 TestResults/
 *.nupkg
+*.nuspec
 *.bak
 *.~*
 *.zip
