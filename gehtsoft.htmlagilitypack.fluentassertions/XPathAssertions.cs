@@ -59,6 +59,9 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<XPathAssertions>(this);
         }
 
+        public AndConstraint<XPathAssertions> Exist(bool exists, string because = null, params object[] becauseParameters)
+            => exists ? Exist(because, becauseParameters) : NotExist(because, becauseParameters);
+
         /// <summary>
         /// Asserts that XPath returns the specified number of the elements.
         /// </summary>

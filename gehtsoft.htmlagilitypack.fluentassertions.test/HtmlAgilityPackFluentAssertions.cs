@@ -132,12 +132,20 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions.Test
         }
 
         [Fact]
+        public void HaveValue1_Ok1()
+        {
+            TestPage.Document.SelectById("text")
+                .Should().Exist()
+                .And.Node.Should().HaveValue("");
+        }
+
+        [Fact]
         public void HaveValue1_Fail()
         {
             ((Action)(() =>
            TestPage.Document.SelectById("text")
                .Should().Exist()
-               .And.Node.Should().HaveValue(""))).Should().Throw<XunitException>();
+               .And.Node.Should().HaveValue("1"))).Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -155,6 +163,15 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions.Test
            TestPage.Document.SelectById("Allwords")
                .Should().Exist()
                .And.Node.Should().HaveValue(null))).Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void HaveValue2_Fail1()
+        {
+            ((Action)(() =>
+           TestPage.Document.SelectById("Allwords")
+               .Should().Exist()
+               .And.Node.Should().HaveValue(""))).Should().Throw<XunitException>();
         }
 
 

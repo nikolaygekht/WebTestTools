@@ -215,10 +215,10 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
                             .ForCondition(element => element.NodeType == HtmlNodeType.Element)
                             .FailWith("Expected {context:node} to be an element but it is {0}", Subject.NodeType)
                             .Then
-                            .ForCondition(element => value == null || (element.Attributes != null && element.Attributes["value"] != null))
+                            .ForCondition(element => string.IsNullOrEmpty(value) || (element.Attributes?["value"] != null))
                             .FailWith("Expected {context:node} to have the attribute {0} but it does not", "value")
                             .Then
-                            .ForCondition(element => (value == null && element.Attributes["value"]?.Value == null) || (element.Attributes["value"]?.Value?.Equals(value, comparison) ?? false))
+                            .ForCondition(element => (string.IsNullOrEmpty(value) && string.IsNullOrEmpty(element?.Attributes["value"]?.Value)) || (element.Attributes["value"]?.Value?.Equals(value, comparison) ?? false))
                             .FailWith("Expected {context:node} to have the attribute {0} have value {1} but it has value {2}", "value", value, Subject.Attributes["value"]?.Value);
             
             return new AndConstraint<HtmlNodeAssertions>(this);
