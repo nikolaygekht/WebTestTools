@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 
-namespace Gehtsoft.Template.Test.Tools
+namespace Gehtsoft.Test.Extensions
 {
     /// <summary>
     /// Extensions of MOQ

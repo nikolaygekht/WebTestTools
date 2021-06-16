@@ -9,7 +9,7 @@ using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specialized;
 
-namespace Gehtsoft.Template.Test.Tools
+namespace Gehtsoft.Test.Extensions
 {
     /// <summary>
     /// Object extensions
