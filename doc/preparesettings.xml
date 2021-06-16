@@ -3,6 +3,8 @@
     <assembly name="gehtsoft.webview2.fluentassertions"  xmldoc="../../../bin/doc.xml"/>
     <assembly name="gehtsoft.htmlagilitypack.fluentassertions"  xmldoc="../../../bin/doc.xml"/>
     <assembly name="gehtsoft.webtest.spellchecker"  xmldoc="../../../bin/doc.xml"/>
+    <assembly name="gehtsoft.httpclient.test.extensions"  xmldoc="../../../bin/doc.xml"/>
+    <assembly name="gehtsoft.test.extensions"  xmldoc="../../../bin/doc.xml"/>
 
     <strip-namespace name="System" />
     <strip-namespace name="System.Linq" />

@@ -197,6 +197,36 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         }
 
         /// <summary>
+        /// Assert that the node have value
+        /// </summary>
+        /// <param name="value">Specify the expected attribute value or `null` to check presence of the attribute</param>
+        /// <param name="comparison"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
+        public AndConstraint<HtmlNodeAssertions> HaveValue(string value = null, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
+        {
+            Execute.Assertion
+                            .BecauseOf(because, becauseParameters)
+                            .Given(() => Subject)
+                            .ForCondition(element => element != null)
+                            .FailWith("Expected {context:node} to exists but it does not")
+                            .Then
+                            .ForCondition(element => element.NodeType == HtmlNodeType.Element)
+                            .FailWith("Expected {context:node} to be an element but it is {0}", Subject.NodeType)
+                            .Then
+                            .ForCondition(element => value == null || (element.Attributes != null && element.Attributes["value"] != null))
+                            .FailWith("Expected {context:node} to have the attribute {0} but it does not", "value")
+                            .Then
+                            .ForCondition(element => (value == null && element.Attributes["value"]?.Value == null) || (element.Attributes["value"]?.Value?.Equals(value, comparison) ?? false))
+                            .FailWith("Expected {context:node} to have the attribute {0} have value {1} but it has value {2}", "value", value, Subject.Attributes["value"]?.Value);
+            
+            return new AndConstraint<HtmlNodeAssertions>(this);
+        }
+
+
+
+        /// <summary>
         /// Asserts that the node has no attribute
         /// </summary>
         /// <param name="name"></param>

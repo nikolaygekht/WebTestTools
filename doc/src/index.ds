@@ -4,7 +4,8 @@
     @title=Gehtsoft WebTest/NET Helpers Library
     @ingroup=
     @transform=yes
-    @sortgroups=no
+    @sortgroups=yes
+
 
     This repository contains an open-source set of the libraries that facilitates creation of the tests for different levels of applications.
 

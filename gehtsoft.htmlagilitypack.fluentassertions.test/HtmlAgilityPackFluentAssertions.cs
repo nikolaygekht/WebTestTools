@@ -124,6 +124,41 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions.Test
         }
 
         [Fact]
+        public void HaveValue1_Ok()
+        {
+            TestPage.Document.SelectById("text")
+                .Should().Exist()
+                .And.Node.Should().HaveValue(null);
+        }
+
+        [Fact]
+        public void HaveValue1_Fail()
+        {
+            ((Action)(() =>
+           TestPage.Document.SelectById("text")
+               .Should().Exist()
+               .And.Node.Should().HaveValue(""))).Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void HaveValue2_Ok()
+        {
+            TestPage.Document.SelectById("Allwords")
+                .Should().Exist()
+                .And.Node.Should().HaveValue("true");
+        }
+
+        [Fact]
+        public void HaveValue2_Fail()
+        {
+            ((Action)(() =>
+           TestPage.Document.SelectById("Allwords")
+               .Should().Exist()
+               .And.Node.Should().HaveValue(null))).Should().Throw<XunitException>();
+        }
+
+
+        [Fact]
         public void Match_Ok()
         {
             TestPage.Document.DocumentNode.Should().Match(_ => true);

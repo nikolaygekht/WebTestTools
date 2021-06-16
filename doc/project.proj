@@ -31,10 +31,12 @@
   <ContentFromPackage Package="gehtsoft.build.docgen" Source="Content/template/html/pageImages" Version="0.1.16" Destination="$(DocTargetDir)/pageImages" />
  </Target>
  <ItemGroup>
-  <DocSource Include="$(MSBuildProjectDirectory)/../gehtsoft.htmlagilitypack.fluentassertions/bin/Release/net50-windows/gehtsoft.htmlagilitypack.fluentassertions.dll" />
+  <DocSource Include="$(MSBuildProjectDirectory)/../gehtsoft.htmlagilitypack.fluentassertions/bin/Release/net50/gehtsoft.htmlagilitypack.fluentassertions.dll" />
   <DocSource Include="$(MSBuildProjectDirectory)/../gehtsoft.webtest.spellchecker/bin/Release/netstandard2.1/gehtsoft.webtest.spellchecker.dll" />
   <DocSource Include="$(MSBuildProjectDirectory)/../gehtsoft.webview2.fluentassertions/bin/Release/net50-windows/gehtsoft.webview2.fluentassertions.dll" />
   <DocSource Include="$(MSBuildProjectDirectory)/../gehtsoft.webview2.uitest/bin/Release/net50-windows/gehtsoft.webview2.uitest.dll" />
+  <DocSource Include="$(MSBuildProjectDirectory)/../gehtsoft.httpclient.test.extensions/bin/Release/netstandard2.1/gehtsoft.httpclient.test.extensions.dll" />
+  <DocSource Include="$(MSBuildProjectDirectory)/../gehtsoft.test.extensions/bin/Release/netstandard2.1/gehtsoft.test.extensions.dll" />
  </ItemGroup>
  <Target Name="Scan">
   <Asm2Xml Assemblies="@(DocSource)" OutputXml="obj/raw.xml" Mode="net50" />

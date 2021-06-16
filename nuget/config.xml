@@ -2,6 +2,7 @@
 <nuget xmlns="http://www.gehtsoft.com/build/nuget">
  <!-- versions. the FIRST version is the current -->
  <versions>
+  <version id="1.0.4">Improve HTML validation</version>
   <version id="1.0.3">Improve WebDriver</version>
   <version id="1.0.2">Remove not needed dependencies</version>
   <version id="1.0.1">The first version</version>
@@ -24,6 +25,12 @@
    </project>
    <project id="Gehtsoft.Webtest.Spellchecker">
     <description>Fluent Assertions for spellchecking the test</description>
+   </project>
+   <project id="Gehtsoft.Httpclient.Test.Extensions">
+    <description>Test extensions for HttpClient</description>
+   </project>
+   <project id="Gehtsoft.Test.Extensions">
+    <description>Test extensions for generic object</description>
    </project>
  </projects>
 </nuget>
