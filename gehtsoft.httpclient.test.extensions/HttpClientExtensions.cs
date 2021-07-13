@@ -90,7 +90,7 @@ namespace Gehtsoft.Httpclient.Test.Extensions
         /// <param name="response"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        public static async Task<HtmlDocument> AsHtmlAsync(this HttpResponseMessage response, string contentType = "application/json")
+        public static async Task<HtmlDocument> AsHtmlAsync(this HttpResponseMessage response, string contentType = "text/html")
         {
             var s = await response.AsStringAsync(contentType);
             var d = new HtmlDocument();
