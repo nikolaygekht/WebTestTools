@@ -2,6 +2,8 @@
 <nuget xmlns="http://www.gehtsoft.com/build/nuget">
  <!-- versions. the FIRST version is the current -->
  <versions>
+  <version id="1.0.5">Add support for cookies</version>
+  <version id="1.0.4.3">Fix mimetype for get html from request</version>
   <version id="1.0.4.2">Fix HTML value validator</version>
   <version id="1.0.4.1">Fix namespace</version>
   <version id="1.0.4">Improve HTML validation</version>

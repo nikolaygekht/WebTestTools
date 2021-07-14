@@ -1,0 +1,9 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor contextAccessor
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["Button"] = "Index";
+}
+
+<p>Value is <div id="value">@(contextAccessor.HttpContext.Session.GetString("value"))</div></p>

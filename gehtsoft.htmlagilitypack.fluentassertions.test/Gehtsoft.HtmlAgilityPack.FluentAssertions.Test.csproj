@@ -15,9 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.8" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -30,5 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\gehtsoft.htmlagilitypack.fluentassertions\Gehtsoft.HtmlAgilityPack.FluentAssertions.csproj" />
+    <ProjectReference Include="..\gehtsoft.httpclient.test.extensions\Gehtsoft.Httpclient.Test.Extensions.csproj" />
+    <ProjectReference Include="..\gehtsoft.test.webapp\Gehtsoft.Test.WebApp.csproj" />
   </ItemGroup>
 </Project>
