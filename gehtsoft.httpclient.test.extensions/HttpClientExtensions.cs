@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -15,6 +17,16 @@ namespace Gehtsoft.Httpclient.Test.Extensions
     /// </summary>
     public static class HttpClientExtensions
     {
+        public static Task<HttpResponseMessage> SendAsync(this HttpClient client, HttpMethod method, string url, CookieContainer cookies = null, HttpContent content = null)
+        {
+            var request = new HttpRequestMessage(method, url);
+            if (cookies != null)
+                request.AddCookies(cookies);
+            if (content != null)
+                request.Content = content;
+            return client.SendAsync(request);
+        }
+
         /// <summary>
         /// Post form content
         /// </summary>
@@ -24,7 +36,23 @@ namespace Gehtsoft.Httpclient.Test.Extensions
         /// <returns></returns>
         public static Task<HttpResponseMessage> PostFormAsync(this HttpClient client, string url, params string[] formContent) => client.PostAsync(url, HttpClientHelper.CreateContent(formContent));
 
-        private static void AddCookies(HttpRequestMessage message, CookieContainer cookieContainer)
+        /// <summary>
+        /// Post form content with file uploads
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="url"></param>
+        /// <param name="uploadParameterName"></param>
+        /// <param name="files"></param>
+        /// <param name="formContent"></param>
+        /// <returns></returns>
+        public static Task<HttpResponseMessage> PostFormAsync(this HttpClient client, string url, string uploadParameterName, IEnumerable<HttpUploadFile> files, params string[] formContent) => client.PostAsync(url, HttpClientHelper.CreateContent(uploadParameterName, files, formContent));
+
+        /// <summary>
+        /// Adds cookies to the request
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="cookieContainer"></param>
+        public static void AddCookies(this HttpRequestMessage message, CookieContainer cookieContainer)
         {
             var uri = message.RequestUri;
             if (!uri.IsAbsoluteUri)
@@ -43,32 +71,50 @@ namespace Gehtsoft.Httpclient.Test.Extensions
         /// <param name="formContent"></param>
         /// <returns></returns>
         public static Task<HttpResponseMessage> PostFormAsync(this HttpClient client, string url, CookieContainer cookieContainer, params string[] formContent)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
-            AddCookies(request, cookieContainer);
-            request.Content = HttpClientHelper.CreateContent(formContent);
-            return client.SendAsync(request);
-        }
+            => client.SendAsync(HttpMethod.Post, url, cookieContainer, HttpClientHelper.CreateContent(formContent));
 
+        /// <summary>
+        /// Post form content with file uploads
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="url"></param>
+        /// <param name="cookieContainer"></param>
+        /// <param name="uploadParameterName"></param>
+        /// <param name="files"></param>
+        /// <param name="formContent"></param>
+        /// <returns></returns>
+        public static Task<HttpResponseMessage> PostFormAsync(this HttpClient client, string url, CookieContainer cookieContainer, string uploadParameterName, IEnumerable<HttpUploadFile> files, params string[] formContent) 
+            => client.SendAsync(HttpMethod.Post, url, cookieContainer, HttpClientHelper.CreateContent(uploadParameterName, files, formContent));
+
+
+        /// <summary>
+        /// Gets with cookies
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="url"></param>
+        /// <param name="cookieContainer"></param>
+        /// <returns></returns>
         public static Task<HttpResponseMessage> GetAsync(this HttpClient client, string url, CookieContainer cookieContainer)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-            AddCookies(request, cookieContainer);
-            return client.SendAsync(request);
-        }
+            => client.SendAsync(HttpMethod.Get, url, cookieContainer);
 
+        /// <summary>
+        /// Deletes with cookies
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="url"></param>
+        /// <param name="cookieContainer"></param>
+        /// <returns></returns>
         public static Task<HttpResponseMessage> DeleteAsync(this HttpClient client, string url, CookieContainer cookieContainer)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Delete, url);
-            AddCookies(request, cookieContainer);
-            return client.SendAsync(request);
-        }
+            => client.SendAsync(HttpMethod.Delete, url, cookieContainer);
 
+        /// <summary>
+        /// Puts with cookies
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="url"></param>
+        /// <param name="cookieContainer"></param>
+        /// <returns></returns>
         public static Task<HttpResponseMessage> PutAsync(this HttpClient client, string url, CookieContainer cookieContainer)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Put, url);
-            AddCookies(request, cookieContainer);
-            return client.SendAsync(request);
-        }
+            => client.SendAsync(HttpMethod.Put, url, cookieContainer);
     }
 }
