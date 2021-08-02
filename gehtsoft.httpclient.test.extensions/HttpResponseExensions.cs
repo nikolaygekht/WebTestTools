@@ -44,7 +44,7 @@ namespace Gehtsoft.Httpclient.Test.Extensions
         /// <param name="response"></param>
         /// <param name="expectedContentType"></param>
         /// <returns></returns>
-        public static async Task<byte[]> AsBinaryAsync(this HttpResponseMessage response, string expectedContentType)
+        public static async Task<byte[]> AsBinaryAsync(this HttpResponseMessage response, string expectedContentType = null)
         {
             if (!response.IsSuccessStatusCode)
                 throw new ArgumentException($"Can't get the URL specified, the code is {response.StatusCode}", nameof(response));

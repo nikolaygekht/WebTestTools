@@ -5,6 +5,7 @@ using Xunit.Sdk;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions.Test
 {
+
     public class HtmlAgilityPackFluentAssertions : IClassFixture<TestPage>
     {
         private readonly TestPage TestPage;

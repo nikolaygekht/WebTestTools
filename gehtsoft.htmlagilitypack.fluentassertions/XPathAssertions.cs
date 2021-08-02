@@ -59,6 +59,13 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
             return new AndConstraint<XPathAssertions>(this);
         }
 
+        /// <summary>
+        /// Checks whether the path exists or not exist depending on the flag specified.
+        /// </summary>
+        /// <param name="exists"></param>
+        /// <param name="because"></param>
+        /// <param name="becauseParameters"></param>
+        /// <returns></returns>
         public AndConstraint<XPathAssertions> Exist(bool exists, string because = null, params object[] becauseParameters)
             => exists ? Exist(because, becauseParameters) : NotExist(because, becauseParameters);
 

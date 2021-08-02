@@ -82,7 +82,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions.Test
 
             var rq = await mServerFixture.Client.PostFormAsync("/Home/Upload", null,
                 "files", new HttpUploadFile[] { new HttpUploadFile("file.txt", content) },
-                "id", "123");
+                "id", "123", "test", "456");
             var json = await rq.AsJsonAsync();
 
             json.Should()

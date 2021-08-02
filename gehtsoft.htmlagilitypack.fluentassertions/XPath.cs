@@ -14,7 +14,8 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
     {
         private readonly HtmlNode mRoot;
         private readonly string mXPath;
-        private HtmlNode[] Nodes { get; }
+        private readonly HtmlNode[] mNodes;
+
 
         /// <summary>
         /// <para>Returns the node from the node collection by its index.</para>
@@ -22,12 +23,12 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public HtmlNode this[int index] => Nodes == null || index < 0 || index >= Nodes.Length ? null : Nodes[index];
+        public HtmlNode this[int index] => mNodes == null || index < 0 || index >= mNodes.Length ? null : mNodes[index];
 
         /// <summary>
         /// Returns the number of the nodes in the collection.
         /// </summary>
-        public int Count => Nodes?.Length ?? 0;
+        public int Count => mNodes?.Length ?? 0;
 
         /// <summary>
         /// <para>Returns the first node in the result.</para>
@@ -35,15 +36,27 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// </summary>
         public HtmlNode Node => Count < 1 ? null : this[0];
 
+        /// <summary>
+        /// Enumeration of all nodes
+        /// </summary>
+        public IEnumerable<HtmlNode> Nodes
+        {
+            get
+            {
+                for (int i = 0; i < Count; i++)
+                    yield return this[i];
+            }
+        }
+
         internal XPath(HtmlNode document, string path)
         {
             mRoot = document;
             mXPath = path;
             var nodes = mRoot.SelectNodes(path);
             if (nodes == null)
-                Nodes = null;
+                mNodes = null;
             else
-                Nodes = nodes.ToArray();
+                mNodes = nodes.ToArray();
         }
 
         /// <summary>Returns a string that represents the current object.</summary>

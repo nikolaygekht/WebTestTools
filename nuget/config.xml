@@ -2,6 +2,7 @@
 <nuget xmlns="http://www.gehtsoft.com/build/nuget">
  <!-- versions. the FIRST version is the current -->
  <versions>
+  <version id="1.0.7">Fix minor defects, add assertions for javascript code</version>
   <version id="1.0.6">Add support of form upload</version>
   <version id="1.0.5">Add support for cookies</version>
   <version id="1.0.4.3">Fix mimetype for get html from request</version>

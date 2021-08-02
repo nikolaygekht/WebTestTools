@@ -30,8 +30,10 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         protected override string Identifier => "cookies";
 
         /// <summary>
-        /// Asserts that the node exists.
+        /// Asserts that the cookie exists.
         /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="url"></param>
         /// <param name="because"></param>
         /// <param name="becauseParameters"></param>
         /// <returns></returns>

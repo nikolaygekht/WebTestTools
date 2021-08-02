@@ -61,7 +61,7 @@ namespace Gehtsoft.Httpclient.Test.Extensions
             }
 
             for (int i = 0; i < (formContent?.Length ?? 0); i += 2)
-                multipart.Add(new StringContent(formContent[i * 2 + 1]), formContent[i * 2]);
+                multipart.Add(new StringContent(formContent[i + 1]), formContent[i]);
 
             return multipart;
         }
