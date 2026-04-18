@@ -5,7 +5,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentAssertions;
+using AwesomeAssertions;
 using Gehtsoft.Webview2.Uitest;
 using Gehtsoft.Webview2.FluentAssertions;
 using Newtonsoft.Json;
@@ -80,7 +80,7 @@ namespace webviewtest
 
             f.ByName["q"]
                 .Should().Exist()
-                .And.BeHtmlTag("input");
+                .And.BeHtmlTag("textarea");
 
             f.ByName["q"].Value = "gehtsoft";
 
@@ -96,8 +96,8 @@ namespace webviewtest
 
             f.ByXPath["/html/body//input[@name='btnK']"].Should().Exist();
 
-            f.ByXPath["/html/body//input[@name='q']"].Should().Exist();
-            f.XPath("/html/body//input[@name='q']").Should().ReturnElement();
+            f.ByXPath["/html/body//textarea[@name='q']"].Should().Exist();
+            f.XPath("/html/body//textarea[@name='q']").Should().ReturnElement();
 
             f.ByXPath["/html/body//input[@name='k']"].Should().NotExist();
             f.XPath("/html/body//input[@name='k']").Should().NotReturnElement();
@@ -105,14 +105,17 @@ namespace webviewtest
             f.ByName["btnK"].Click();
 
             f.WaitFor(d => d.Location.StartsWith("https://www.google.com/search"), 5);
-
+            f.WaitFor(d => f.ByXPath["/html/body"].Exists, 5);
             f.ByXPath["/html/body"].Exists.Should().BeTrue();
 
+            //TBD: google changed since writing text this part doesn't work anymore
+            /*
             var s = f.ByXPath["/html/body"].OuterHTML;
             s.Should().Contain("https://gehtsoftusa.com/");
 
             f.XPath("count(/html/body//cite[text()='https://gehtsoftusa.com'])").AsNumber.Should().BeGreaterThan(0);
             f.XPath("count(/html/body//cite[text()='https://gehtsoftusa.com']) > 0").AsBoolean.Should().BeTrue();
+            */
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Security.Policy;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 using HtmlAgilityPack;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
@@ -18,7 +18,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// </summary>
         public HtmlNode Node => Subject.Count > 0 ? Subject[0] : null;
 
-        internal XPathAssertions(XPath subject) : base(subject)
+        internal XPathAssertions(XPath subject, AssertionChain assertionChain) : base(subject, assertionChain)
         {
         }
 
@@ -35,7 +35,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> Exist(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Count > 0)
@@ -51,7 +51,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> NotExist(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Count < 1)
@@ -78,7 +78,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> HaveCount(int value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Count == value)
@@ -95,7 +95,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> ContainNodeMatching(Expression<Func<HtmlNode, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element =>
@@ -106,7 +106,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
                             return true;
                     return false;
                 })
-                .FailWith("Expected {context:xpath} to contain a node matching {0} but it does not", predicate);
+                .FailWith("Expected {context:xpath} to contain a node matching {0} but it does not", predicate.ToString());
             return new AndConstraint<XPathAssertions>(this);
         }
 
@@ -119,7 +119,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> ContainAllNodesMatching(Expression<Func<HtmlNode, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element =>
@@ -130,7 +130,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
                             return false;
                     return true;
                 })
-                .FailWith("Expected {context:xpath} to contain all nodes matching {0} but it does not", predicate);
+                .FailWith("Expected {context:xpath} to contain all nodes matching {0} but it does not", predicate.ToString());
             return new AndConstraint<XPathAssertions>(this);
         }
 
@@ -143,7 +143,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> ContainNoNodesMatching(Expression<Func<HtmlNode, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element =>
@@ -154,7 +154,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
                             return false;
                     return true;
                 })
-                .FailWith("Expected {context:xpath} to contain no nodes matching {0} but it does", predicate);
+                .FailWith("Expected {context:xpath} to contain no nodes matching {0} but it does", predicate.ToString());
             return new AndConstraint<XPathAssertions>(this);
         }
     }

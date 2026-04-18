@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
@@ -21,6 +21,6 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// </summary>
         /// <param name="container"></param>
         /// <returns></returns>
-        public static CookieContainerAssertions Should(this CookieContainer container) => new CookieContainerAssertions(container);
+        public static CookieContainerAssertions Should(this CookieContainer container) => new CookieContainerAssertions(container, AssertionChain.GetOrCreate());
     }
 }

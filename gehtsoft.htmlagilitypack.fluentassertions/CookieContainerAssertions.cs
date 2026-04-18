@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
@@ -20,7 +20,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// </summary>
         public CookieContainer Node => Subject;
 
-        internal CookieContainerAssertions(CookieContainer subject) : base(subject)
+        internal CookieContainerAssertions(CookieContainer subject, AssertionChain assertionChain) : base(subject, assertionChain)
         {
         }
 
@@ -39,7 +39,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<CookieContainerAssertions> HaveCookie(string cookie, string url = "https://localhost", string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(container =>

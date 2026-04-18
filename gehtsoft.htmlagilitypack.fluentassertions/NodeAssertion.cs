@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Esprima.Ast;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
@@ -13,7 +13,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
     /// </summary>
     public class NodeAssertion : ReferenceTypeAssertions<Node, NodeAssertion>
     {
-        internal NodeAssertion(Node subject) : base(subject)
+        internal NodeAssertion(Node subject, AssertionChain assertionChain) : base(subject, assertionChain)
         {
         }
 
@@ -35,7 +35,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<NodeAssertion> HaveChildren(string because = null, params object[] becauseArgs)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseArgs)
                 .Given(() => Subject)
                 .ForCondition(node => node.ChildNodes.Any())
@@ -51,7 +51,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<NodeAssertion> HaveNoChildren(string because = null, params object[] becauseArgs)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseArgs)
                 .Given(() => Subject)
                 .ForCondition(node => !node.ChildNodes.Any())
@@ -68,11 +68,11 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<NodeAssertion> Contain(Expression<Func<Node, bool>> predicate, string because = null, params object[] becauseArgs)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseArgs)
                 .Given(() => Subject)
                 .ForCondition(node => (Found = node.Find(predicate.Compile())) != null)
-                .FailWith("Expected {context:node} contain a node matching {0} but it does not", predicate);
+                .FailWith("Expected {context:node} contain a node matching {0} but it does not", predicate.ToString());
             return new AndConstraint<NodeAssertion>(this);
         }
 
@@ -85,11 +85,11 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<NodeAssertion> NotContain(Expression<Func<Node, bool>> predicate, string because = null, params object[] becauseArgs)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseArgs)
                 .Given(() => Subject)
                 .ForCondition(node => node.Find(predicate.Compile()) == null)
-                .FailWith("Expected {context:node} does not contain a node matching {0} but it does", predicate);
+                .FailWith("Expected {context:node} does not contain a node matching {0} but it does", predicate.ToString());
             return new AndConstraint<NodeAssertion>(this);
         }
 
@@ -103,11 +103,11 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         public AndConstraint<NodeAssertion> Contain<T>(Expression<Func<T, bool>> predicate, string because = null, params object[] becauseArgs)
                 where T : Node
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseArgs)
                 .Given(() => Subject)
                 .ForCondition(node => (Found = node.Find<T>(predicate.Compile())) != null)
-                .FailWith("Expected {context:node} contain a node matching {0} but it does not", predicate);
+                .FailWith("Expected {context:node} contain a node matching {0} but it does not", predicate.ToString());
             return new AndConstraint<NodeAssertion>(this);
         }
 
@@ -121,11 +121,11 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         public AndConstraint<NodeAssertion> NotContain<T>(Expression<Func<T, bool>> predicate, string because = null, params object[] becauseArgs)
                 where T : Node
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseArgs)
                 .Given(() => Subject)
                 .ForCondition(node => node.Find<T>(predicate.Compile()) == null)
-                .FailWith("Expected {context:node} does not contain a node matching {0} but it does", predicate);
+                .FailWith("Expected {context:node} does not contain a node matching {0} but it does", predicate.ToString());
             return new AndConstraint<NodeAssertion>(this);
         }
 
@@ -139,17 +139,17 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <param name="becauseArgs"></param>
         /// <returns></returns>
 
-        public AndConstraint<NodeAssertion> Match<T>(Expression<Func<T, bool>> predicate, string because = null, params object[] becauseArgs)
+        new public AndConstraint<NodeAssertion> Match<T>(Expression<Func<T, bool>> predicate, string because = null, params object[] becauseArgs)
             where T : Node
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseArgs)
                 .Given(() => Subject)
                 .ForCondition(s => s is T)
                 .FailWith("Expected {context:node} to be {0} but it is {1}", typeof(T).FullName, Subject?.GetType()?.FullName)
                 .Then
                 .ForCondition(s => predicate.Compile()(s as T))
-                .FailWith("Expected {context:node} to match {0} it does not", predicate);
+                .FailWith("Expected {context:node} to match {0} it does not", predicate.ToString());
 
             return new AndConstraint<NodeAssertion>(this);
         }
@@ -166,14 +166,14 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         public AndConstraint<NodeAssertion> NotMatch<T>(Expression<Func<T, bool>> predicate, string because = null, params object[] becauseArgs)
             where T : Node
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseArgs)
                 .Given(() => Subject)
                 .ForCondition(s => s is T)
                 .FailWith("Expected {context:node} to be {0} but it is {1}", typeof(T).FullName, Subject?.GetType()?.FullName)
                 .Then
                 .ForCondition(s => !(predicate.Compile()(s as T)))
-                .FailWith("Expected {context:node} does not match {0} the predicate, but it does", predicate);
+                .FailWith("Expected {context:node} does not match {0} the predicate, but it does", predicate.ToString());
 
             return new AndConstraint<NodeAssertion>(this);
         }

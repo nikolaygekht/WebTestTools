@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 
 namespace Gehtsoft.Webtest.Spellchecker
 {
@@ -31,7 +31,7 @@ namespace Gehtsoft.Webtest.Spellchecker
 
             var failedList = SpellCheckerFactory.Instance[dictionary].SpellMany(assertions.Subject);
 
-            Execute.Assertion
+            assertions.CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => failedList)
                 .ForCondition(list => list == null || list.Count == 0)

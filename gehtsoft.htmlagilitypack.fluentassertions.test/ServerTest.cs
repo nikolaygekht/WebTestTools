@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Gehtsoft.Httpclient.Test.Extensions;
-using FluentAssertions;
+using AwesomeAssertions;
 using System.Net;
 using System.Net.Http;
 using System.IO;

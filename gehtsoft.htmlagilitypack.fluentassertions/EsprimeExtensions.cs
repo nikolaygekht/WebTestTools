@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Esprima;
 using Esprima.Ast;
-using FluentAssertions.Primitives;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 using HtmlAgilityPack;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
@@ -23,8 +24,8 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public static Script AsScript(this string source)
         {
-            var parser = new JavaScriptParser(source);
-            return parser.ParseScript();
+            var parser = new JavaScriptParser();
+            return parser.ParseScript(source);
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public static NodeAssertion Should(this Node node) => new NodeAssertion(node);
+        public static NodeAssertion Should(this Node node) => new NodeAssertion(node, AssertionChain.GetOrCreate());
 
         /// <summary>
         /// Check whether the node is a node of the type specified

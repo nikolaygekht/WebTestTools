@@ -1,4 +1,6 @@
-﻿namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
+﻿using AwesomeAssertions.Execution;
+
+namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
     /// <summary>
     /// The extension class to create XPath assertions.
@@ -10,6 +12,6 @@
         /// </summary>
         /// <param name="xpath"></param>
         /// <returns></returns>
-        public static XPathAssertions Should(this XPath xpath) => new XPathAssertions(xpath);
+        public static XPathAssertions Should(this XPath xpath) => new XPathAssertions(xpath, AssertionChain.GetOrCreate());
     }
 }

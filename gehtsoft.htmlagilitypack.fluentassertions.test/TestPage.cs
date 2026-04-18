@@ -29,9 +29,13 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions.Test
             var assembly = type.Assembly;
 
             using var stream = assembly.GetManifestResourceStream($"{type.Namespace}.test.html");
+
             var content = new byte[stream.Length];
-            stream.Read(content);
-            return Encoding.UTF8.GetString(content);
+            stream.ReadExactly(content, 0, (int)stream.Length);
+            if (content.Length > 3 && content[0] == 0xef)
+                return Encoding.UTF8.GetString(content, 3, content.Length - 3);
+            else
+                return Encoding.UTF8.GetString(content);
         }
     }
 }

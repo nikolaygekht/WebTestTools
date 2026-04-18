@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 using HtmlAgilityPack;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
@@ -18,7 +18,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// </summary>
         public HtmlNode Node => Subject;
 
-        internal HtmlNodeAssertions(HtmlNode subject) : base(subject)
+        internal HtmlNodeAssertions(HtmlNode subject, AssertionChain assertionChain) : base(subject, assertionChain)
         {
         }
 
@@ -35,7 +35,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> Exist(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element != null)
@@ -51,7 +51,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> NotExist(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element == null)
@@ -67,7 +67,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> BeElement(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element != null)
@@ -87,7 +87,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> BeElement(string tag, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element != null)
@@ -109,7 +109,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> BeText(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element?.NodeType == HtmlNodeType.Text)
@@ -127,7 +127,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> ContainText(string text, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element != null)
@@ -152,7 +152,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> ContainHtml(string text, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element != null)
@@ -178,7 +178,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> HaveAttribute(string name, string value = null, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element != null)
@@ -206,7 +206,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> HaveValue(string value = null, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                             .BecauseOf(because, becauseParameters)
                             .Given(() => Subject)
                             .ForCondition(element => element != null)
@@ -237,7 +237,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> HaveNoAttribute(string name, string value = null, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element != null)
@@ -261,7 +261,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> HaveAttributeMatching(string name, Expression<Func<HtmlAttribute, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element != null)
@@ -274,7 +274,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
                 .FailWith("Expected {context:node} to have the attribute {0} but it does not", name)
                 .Then
                 .ForCondition(element => predicate.Compile()(element.Attributes[name]))
-                .FailWith("Expected {context:node} to have the attribute {0} match predicate {1} but it does not", name, predicate);
+                .FailWith("Expected {context:node} to have the attribute {0} match predicate {1} but it does not", name, predicate.ToString());
 
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
@@ -288,11 +288,11 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         new public AndConstraint<HtmlNodeAssertions> Match(Expression<Func<HtmlNode, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                   .BecauseOf(because, becauseParameters)
                   .Given(() => Subject)
                   .ForCondition(element => predicate.Compile()(element))
-                  .FailWith("Expected {context:node} to match predicate {0} but it does not", predicate);
+                  .FailWith("Expected {context:node} to match predicate {0} but it does not", predicate.ToString());
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
 
@@ -305,11 +305,11 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<HtmlNodeAssertions> NotMatch(Expression<Func<HtmlNode, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                   .BecauseOf(because, becauseParameters)
                   .Given(() => Subject)
                   .ForCondition(element => !predicate.Compile()(element))
-                  .FailWith("Expected {context:node} to not match predicate {0} but it does", predicate);
+                  .FailWith("Expected {context:node} to not match predicate {0} but it does", predicate.ToString());
             return new AndConstraint<HtmlNodeAssertions>(this);
         }
     }

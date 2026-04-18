@@ -4,7 +4,7 @@ using Esprima.Ast;
 using HtmlAgilityPack;
 using Xunit;
 using Xunit.Sdk;
-using FluentAssertions;
+using AwesomeAssertions;
 using System.Linq.Expressions;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions.Test

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 using Gehtsoft.Webview2.Uitest;
 
 namespace Gehtsoft.Webview2.FluentAssertions
@@ -23,7 +23,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// </summary>
         protected override string Identifier => "element";
 
-        internal ElementAssertions(IElement subject) : base(subject)
+        internal ElementAssertions(IElement subject, AssertionChain assertionChain) : base(subject, assertionChain)
         {
         }
 
@@ -35,7 +35,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> Exist(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Exists)
@@ -51,7 +51,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> NotExist(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => !element.Exists)
@@ -68,7 +68,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> HaveValue(string value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Exists)
@@ -88,7 +88,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> NotHaveValue(string value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Exists)
@@ -108,7 +108,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> HaveClass(string value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Exists)
@@ -128,7 +128,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> NotHaveClass(string value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Exists)
@@ -148,7 +148,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> IsChecked(bool? value = true, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Exists)
@@ -171,7 +171,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> HaveProperty<T>(string propertyName, T value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Exists)
@@ -194,7 +194,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> NotHaveProperty<T>(string propertyName, T value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Exists)
@@ -216,7 +216,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> HaveAttribute(string attributeName, string value = null, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Exists)
@@ -241,7 +241,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> NotHaveAttribute(string attributeName, string value = null, StringComparison comparison = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.Exists)
@@ -261,7 +261,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> BeHtmlTag(string tag, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element?.TagName?.Equals(tag, StringComparison.OrdinalIgnoreCase) ?? false)
@@ -279,7 +279,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> ContainText(string text, StringComparison comparisonType = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element?.InnerText?.Contains(text, comparisonType) ?? false)
@@ -297,7 +297,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> ContainHTML(string html, StringComparison comparisonType = StringComparison.Ordinal, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element?.InnerHTML?.Contains(html, comparisonType) ?? false)
@@ -314,7 +314,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         new public AndConstraint<ElementAssertions> Match(Expression<Func<IElement, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => predicate.Compile().Invoke(element))
@@ -331,7 +331,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<ElementAssertions> NotMatch(Expression<Func<IElement, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => !predicate.Compile().Invoke(element))

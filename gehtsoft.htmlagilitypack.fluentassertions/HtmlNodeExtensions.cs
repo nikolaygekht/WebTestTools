@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using AwesomeAssertions.Execution;
+using HtmlAgilityPack;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
@@ -12,6 +13,6 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public static HtmlNodeAssertions Should(this HtmlNode node) => new HtmlNodeAssertions(node);
+        public static HtmlNodeAssertions Should(this HtmlNode node) => new HtmlNodeAssertions(node, AssertionChain.GetOrCreate());
     }
 }

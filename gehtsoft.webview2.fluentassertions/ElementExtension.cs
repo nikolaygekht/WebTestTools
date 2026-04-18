@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 using Gehtsoft.Webview2.Uitest;
 
 namespace Gehtsoft.Webview2.FluentAssertions
@@ -21,6 +21,6 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
-        public static ElementAssertions Should(this IElement element) => new ElementAssertions(element);
+        public static ElementAssertions Should(this IElement element) => new ElementAssertions(element, AssertionChain.GetOrCreate());
     }
 }

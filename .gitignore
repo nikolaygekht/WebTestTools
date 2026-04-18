@@ -17,4 +17,4 @@ TestResults/
 *.chw
 *.log
 *.user
-
+settings.local.json

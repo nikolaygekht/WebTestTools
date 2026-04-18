@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 using Gehtsoft.Webview2.Uitest;
 
 namespace Gehtsoft.Webview2.FluentAssertions
@@ -17,7 +17,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// </summary>
         protected override string Identifier => "driver";
 
-        internal WebBrowserDriverAssertions(WebBrowserDriver subject) : base(subject)
+        internal WebBrowserDriverAssertions(WebBrowserDriver subject, AssertionChain assertionChain) : base(subject, assertionChain)
         {
         }
 
@@ -29,7 +29,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<WebBrowserDriverAssertions> BeInitialized(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
                .ForCondition(driver => driver.HasCore)
@@ -47,7 +47,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<WebBrowserDriverAssertions> HaveCookie(string cookieName, string cookieUri, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
                .ForCondition(driver =>
@@ -70,7 +70,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<WebBrowserDriverAssertions> HaveCookie(string cookieName, string value, string cookieUri, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
                .ForCondition(driver =>
@@ -92,7 +92,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<WebBrowserDriverAssertions> HaveNoCookie(string cookieName, string cookieUri, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
                .ForCondition(driver =>
@@ -115,7 +115,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<WebBrowserDriverAssertions> HaveNoCookie(string cookieName, string value, string cookieUri, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
                .ForCondition(driver =>

@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
@@ -17,7 +17,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
     /// </summary>
     public class JsonElementAssertions : ReferenceTypeAssertions<JsonElement, JsonElementAssertions>
     {
-        internal JsonElementAssertions(JsonElement subject) : base(subject)
+        internal JsonElementAssertions(JsonElement subject, AssertionChain assertionChain) : base(subject, assertionChain)
         {
         }
 
@@ -35,7 +35,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> BeKindOf(JsonValueKind valueKind, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind == valueKind)
@@ -60,7 +60,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         new public AndConstraint<JsonElementAssertions> NotBeNull(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind != JsonValueKind.Null)
@@ -101,7 +101,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> BeBoolean(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind == JsonValueKind.True || element.ValueKind == JsonValueKind.False)
@@ -127,7 +127,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> Be(object value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.EqualsTo(value))
@@ -145,7 +145,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> NotBe(object value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => !element.EqualsTo(value))
@@ -171,7 +171,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> HaveProperty(string propertyName, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind == JsonValueKind.Object)
@@ -193,7 +193,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> HaveProperty(string propertyName, object value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
                .ForCondition(element => element.ValueKind == JsonValueKind.Object)
@@ -218,7 +218,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> HavePropertyMatching(string propertyName, Expression<Func<JsonElement, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
               .BecauseOf(because, becauseParameters)
               .Given(() => Subject)
               .ForCondition(element => element.ValueKind == JsonValueKind.Object)
@@ -228,7 +228,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
               .FailWith("Expected {context:jsonelement} has a property {0} but it does not have", propertyName)
               .Then
               .ForCondition(element => element.TryGetProperty(propertyName, out var property) && predicate.Compile()(property))
-              .FailWith("Expected {context:jsonelement} has a property {0} matching {1} but it does match", propertyName, predicate);
+              .FailWith("Expected {context:jsonelement} has a property {0} matching {1} but it does match", propertyName, predicate.ToString());
 
             return new AndConstraint<JsonElementAssertions>(this);
         }
@@ -243,14 +243,14 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> HavePropertyNotMatching(string propertyName, Expression<Func<JsonElement, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
               .BecauseOf(because, becauseParameters)
               .Given(() => Subject)
               .ForCondition(element => element.ValueKind == JsonValueKind.Object)
               .FailWith("Expected {context:jsonelement} to be an object but it is {0}", Subject.ValueKind)
               .Then
               .ForCondition(element => !element.TryGetProperty(propertyName, out var property) || !predicate.Compile()(property))
-              .FailWith("Expected {context:jsonelement} has no property {0} matching {1} but it does have the property matching", propertyName, predicate);
+              .FailWith("Expected {context:jsonelement} has no property {0} matching {1} but it does have the property matching", propertyName, predicate.ToString());
 
             return new AndConstraint<JsonElementAssertions>(this);
         }
@@ -272,7 +272,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> HaveCount(int count, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind == JsonValueKind.Array)
@@ -293,7 +293,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> HaveElement(object value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind == JsonValueKind.Array)
@@ -316,14 +316,14 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         {
             var func = predicate.Compile();
 
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind == JsonValueKind.Array)
                 .FailWith("Expected {context:jsonelement} is an array but it is {0}", Subject.ValueKind)
                 .Then
                 .ForCondition(element => element.EnumerateArray().Any(e => func(e)))
-                .FailWith("Expected {context:jsonelement} is an array that has element that matches {0} but it does not have", predicate);
+                .FailWith("Expected {context:jsonelement} is an array that has element that matches {0} but it does not have", predicate.ToString());
 
             return new AndConstraint<JsonElementAssertions>(this);
         }
@@ -338,14 +338,14 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         public AndConstraint<JsonElementAssertions> HaveNoElementsMatching(Expression<Func<JsonElement, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             var func = predicate.Compile();
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind == JsonValueKind.Array)
                 .FailWith("Expected {context:jsonelement} is an array but it is {0}", Subject.ValueKind)
                 .Then
                 .ForCondition(element => !element.EnumerateArray().Any(e => func(e)))
-                .FailWith("Expected {context:jsonelement} is an array that does not have an element that matches {0} but it has", predicate);
+                .FailWith("Expected {context:jsonelement} is an array that does not have an element that matches {0} but it has", predicate.ToString());
             return new AndConstraint<JsonElementAssertions>(this);
         }
 
@@ -359,14 +359,14 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         public AndConstraint<JsonElementAssertions> HaveAllElementsMatching(Expression<Func<JsonElement, bool>> predicate, string because = null, params object[] becauseParameters)
         {
             var func = predicate.Compile();
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind == JsonValueKind.Array)
                 .FailWith("Expected {context:jsonelement} is an array but it is {0}", Subject.ValueKind)
                 .Then
                 .ForCondition(element => element.ValueKind == JsonValueKind.Array && element.EnumerateArray().All(e => func(e)))
-                .FailWith("Expected {context:jsonelement} is an array that have all elements that matches {0} but it does not have", predicate);
+                .FailWith("Expected {context:jsonelement} is an array that have all elements that matches {0} but it does not have", predicate.ToString());
 
             return new AndConstraint<JsonElementAssertions>(this);
         }
@@ -380,7 +380,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> HaveNoElement(object value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind == JsonValueKind.Array)
@@ -400,7 +400,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> BeEmptyArray(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => element.ValueKind == JsonValueKind.Array)
@@ -420,7 +420,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> BeEmptyArrayOrNull(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => (element.ValueKind == JsonValueKind.Array && element.GetArrayLength() == 0) || element.ValueKind == JsonValueKind.Null)
@@ -438,11 +438,11 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         new public AndConstraint<JsonElementAssertions> Match(Expression<Func<JsonElement, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => predicate.Compile()(element))
-                .FailWith("Expected {context:jsonelement} matches predicate {0} but it does not", predicate);
+                .FailWith("Expected {context:jsonelement} matches predicate {0} but it does not", predicate.ToString());
 
             return new AndConstraint<JsonElementAssertions>(this);
         }
@@ -456,11 +456,11 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public AndConstraint<JsonElementAssertions> NotMatch(Expression<Func<JsonElement, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(element => !predicate.Compile()(element))
-                .FailWith("Expected {context:jsonelement} does not match predicate {0} but it does not", predicate);
+                .FailWith("Expected {context:jsonelement} does not match predicate {0} but it does not", predicate.ToString());
 
             return new AndConstraint<JsonElementAssertions>(this);
         }

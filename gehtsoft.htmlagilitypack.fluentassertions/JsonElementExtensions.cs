@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json;
+using AwesomeAssertions.Execution;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
@@ -13,7 +14,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
-        public static JsonElementAssertions Should(this JsonElement element) => new JsonElementAssertions(element);
+        public static JsonElementAssertions Should(this JsonElement element) => new JsonElementAssertions(element, AssertionChain.GetOrCreate());
 
         internal static bool EqualsTo(this JsonElement element, object value)
         {

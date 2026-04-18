@@ -4,10 +4,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
-using FluentAssertions.Specialized;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
+using AwesomeAssertions.Specialized;
 
 namespace Gehtsoft.Test.Extensions
 {
@@ -100,7 +100,7 @@ namespace Gehtsoft.Test.Extensions
         /// <returns></returns>
         public static AndConstraint<ObjectAssertions> HaveProperty(this ObjectAssertions assertions, string name, object value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            assertions.CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => assertions.Subject)
                 .ForCondition(v => v.HasProperty(name, value))
@@ -118,7 +118,7 @@ namespace Gehtsoft.Test.Extensions
         /// <returns></returns>
         public static AndConstraint<ObjectAssertions> HaveProperty(this ObjectAssertions assertions, string name, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            assertions.CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => assertions.Subject)
                 .ForCondition(v => v.HasProperty(name))

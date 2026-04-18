@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 using Gehtsoft.Webview2.Uitest;
 
 namespace Gehtsoft.Webview2.FluentAssertions
@@ -18,7 +18,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// </summary>
         protected override string Identifier => "xpath";
 
-        internal XPathAssertions(IXPath subject) : base(subject)
+        internal XPathAssertions(IXPath subject, AssertionChain assertionChain) : base(subject, assertionChain)
         {
         }
 
@@ -31,7 +31,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> Be(string value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => xpath?.AsString == value)
@@ -48,7 +48,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> NotBe(string value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => xpath?.AsString != value)
@@ -65,7 +65,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> Be(double value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => xpath?.AsNumber == value)
@@ -82,7 +82,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> NotBe(double value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => xpath?.AsNumber != value)
@@ -99,7 +99,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> BeGreaterThan(double value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => xpath?.AsNumber > value)
@@ -116,7 +116,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> BeLessThan(double value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => xpath?.AsNumber < value)
@@ -133,7 +133,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> BeGreaterThanOrEquals(double value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => xpath?.AsNumber >= value)
@@ -150,7 +150,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> BeLessThanOrEquals(double value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => xpath?.AsNumber <= value)
@@ -168,7 +168,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> BeApproximately(double value, double delta, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => Math.Abs((xpath?.AsNumber ?? Double.MaxValue) - value) <= delta)
@@ -186,7 +186,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> NotBeApproximately(double value, double delta, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => Math.Abs((xpath?.AsNumber ?? Double.MaxValue) - value) > delta)
@@ -221,7 +221,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> Be(bool value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
                .ForCondition(xpath => xpath?.AsBoolean == value)
@@ -239,7 +239,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> NotBe(bool value, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
                .ForCondition(xpath => xpath?.AsBoolean != value)
@@ -256,7 +256,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> ReturnElement(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
                .ForCondition(xpath => xpath?.AsElement?.Exists == true)
@@ -273,7 +273,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> NotReturnElement(string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                .BecauseOf(because, becauseParameters)
                .Given(() => Subject)
                .ForCondition(xpath => xpath?.AsElement?.Exists != true)
@@ -307,7 +307,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         new public AndConstraint<XPathAssertions> Match(Expression<Func<IXPath, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => predicate.Compile().Invoke(xpath))
@@ -324,7 +324,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// <returns></returns>
         public AndConstraint<XPathAssertions> NotMatch(Expression<Func<IXPath, bool>> predicate, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => Subject)
                 .ForCondition(xpath => !predicate.Compile().Invoke(xpath))

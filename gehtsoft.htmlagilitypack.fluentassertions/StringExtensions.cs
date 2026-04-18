@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 
 namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
 {
@@ -24,7 +24,7 @@ namespace Gehtsoft.HtmlAgilityPack.FluentAssertions
         /// <returns></returns>
         public static AndConstraint<StringAssertions> BeJson(this StringAssertions assertions, string because = null, params object[] becauseParameters)
         {
-            Execute.Assertion
+            assertions.CurrentAssertionChain
                 .BecauseOf(because, becauseParameters)
                 .Given(() => assertions.Subject)
                 .ForCondition(subject => {

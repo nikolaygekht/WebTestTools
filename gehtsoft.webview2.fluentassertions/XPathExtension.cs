@@ -1,4 +1,5 @@
-﻿using Gehtsoft.Webview2.Uitest;
+﻿using AwesomeAssertions.Execution;
+using Gehtsoft.Webview2.Uitest;
 
 namespace Gehtsoft.Webview2.FluentAssertions
 {
@@ -12,6 +13,6 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// </summary>
         /// <param name="xpath"></param>
         /// <returns></returns>
-        public static XPathAssertions Should(this IXPath xpath) => new XPathAssertions(xpath);
+        public static XPathAssertions Should(this IXPath xpath) => new XPathAssertions(xpath, AssertionChain.GetOrCreate());
     }
 }

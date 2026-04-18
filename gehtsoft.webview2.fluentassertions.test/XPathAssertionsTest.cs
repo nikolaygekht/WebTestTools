@@ -1,5 +1,5 @@
 ﻿using System;
-using FluentAssertions;
+using AwesomeAssertions;
 using Gehtsoft.Webview2.Uitest;
 using Gehtsoft.Webview2.FluentAssertions;
 using Moq;

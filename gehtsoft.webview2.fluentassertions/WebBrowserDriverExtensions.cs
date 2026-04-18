@@ -1,4 +1,5 @@
-﻿using Gehtsoft.Webview2.Uitest;
+﻿using AwesomeAssertions.Execution;
+using Gehtsoft.Webview2.Uitest;
 
 namespace Gehtsoft.Webview2.FluentAssertions
 {
@@ -12,7 +13,7 @@ namespace Gehtsoft.Webview2.FluentAssertions
         /// </summary>
         /// <param name="driver"></param>
         /// <returns></returns>
-        public static WebBrowserDriverAssertions Should(this WebBrowserDriver driver) => new WebBrowserDriverAssertions(driver);
+        public static WebBrowserDriverAssertions Should(this WebBrowserDriver driver) => new WebBrowserDriverAssertions(driver, AssertionChain.GetOrCreate());
     }
 }
 
